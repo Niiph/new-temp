@@ -31,6 +31,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             uriTemplate: 'time',
             input: DeviceTokenInput::class,
             output: DeviceTokenOutput::class,
+            name: 'time',
             processor: DeviceTokenProcessor::class,
         ),
         new Get(),
@@ -96,5 +97,10 @@ class DeviceToken implements DeviceTokenInterface
     public function getToken(): string
     {
         return $this->token;
+    }
+
+    public function isValid(): bool
+    {
+        return $this->expirationTime->gte(CarbonImmutable::now());
     }
 }

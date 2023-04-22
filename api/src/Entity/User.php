@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Util\AccountRole;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
-use App\Util\ShortUuidGenerator;
 use App\Util\StringLengthUtil;
 use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,14 +15,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Valid;
 
 #[UniqueEntity('id')]
 #[ApiResource(mercure: true)]

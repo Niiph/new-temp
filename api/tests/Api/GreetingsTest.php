@@ -8,15 +8,16 @@ class GreetingsTest extends ApiTestCase
 {
     public function testCreateGreeting(): void
     {
-        static::createClient()->request('POST', '/greetings', ['json' => [
-            'name' => 'Kévin',
-        ]]);
+        static::createClient()->request(
+            'POST',
+            '/time',
+            ['headers' => ['accept' => ['application/json']],
+                'json' => ['shortId' => 'H4RGYLKDWW7N6BWCDMQHNZAHW2']]
+        );
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            '@context' => '/contexts/Greeting',
-            '@type' => 'Greeting',
-            'name' => 'Kévin',
+            'date' => 'Kévin',
         ]);
     }
 }

@@ -9,15 +9,14 @@ use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ReadingInput;
 use App\Entity\Reading;
 use App\Entity\SensorInterface;
-use App\Repository\SensorRepositoryInterface;
+use App\Service\DeviceResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class ReadingProcessor implements ProcessorInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private SensorRepositoryInterface $sensorRepository,
+        private EntityManagerInterface  $entityManager,
+        private DeviceResolverInterface $deviceResolver,
     )
     {
     }
@@ -25,18 +24,16 @@ readonly class ReadingProcessor implements ProcessorInterface
     /** @param ReadingInput $data */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        if (empty($data->value)
-            || !is_numeric($data->value)
-            || empty($data->token)
-            || !is_string($data->token)) {
-            return;
-        }
-        $sensor = $this->sensorRepository->find($uriVariables['id']);
-        if (!$sensor instanceof SensorInterface) {
+        if (empty($data->value) || !is_numeric($data->value)) {
             return;
         }
 
-        if (!$sensor->getDevice()->isTokenValid($data->token)) {
+        $device = $this->deviceResolver->resolveDevice();
+        $sensor = $device?->getSensors()->filter(static function (SensorInterface $sensor) use ($uriVariables) {
+            return $sensor->getId()->equals($uriVariables['id']);
+            })->first();
+
+        if (!$sensor instanceof SensorInterface) {
             return;
         }
 

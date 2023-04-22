@@ -9,9 +9,8 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use App\Repository\DeviceRepository;
-use App\StateProvider\DeviceSensorCountProvider;
+use App\StateProvider\SensorsListProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
 use App\Util\ShortUuidGenerator;
@@ -30,9 +29,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/devices/{id}/sensors_count',
-            name: 'sensors_count',
-            provider: DeviceSensorCountProvider::class,
+            uriTemplate: '/devices/{id}/list_sensors',
+            name: 'list_sensors',
+            provider: SensorsListProvider::class,
         ),
         new Get(),
         new Post(),

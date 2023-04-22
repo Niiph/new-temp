@@ -20,7 +20,6 @@ final class Version20230323232718 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE greeting_id_seq CASCADE');
         $this->addSql('CREATE TABLE sensor (id UUID NOT NULL, name VARCHAR(255) NOT NULL, pin INT NOT NULL, address VARCHAR(255) NOT NULL, minimum INT DEFAULT NULL, maximum INT DEFAULT NULL, active BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN sensor.id IS \'(DC2Type:uuid)\'');
     }
@@ -29,7 +28,6 @@ final class Version20230323232718 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('CREATE SEQUENCE greeting_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('DROP TABLE sensor');
     }
 }
