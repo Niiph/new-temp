@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Entity\Device;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectRepository;
 
 class DeviceRepository extends ServiceEntityRepository implements DeviceRepositoryInterface
 {

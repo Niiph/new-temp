@@ -1,5 +1,6 @@
 parameters:
-    app.security.api_route: "/"
+    app.security.api_route: ""
+    app.security.api_regex: "^%app.security.api_route%"
     
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
@@ -25,8 +26,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
+        - { route: "time", methods: [ POST ], allow_if: "not is_granted('ROLE_USER')" }
+        - { route: "add_reading", methods: [ PUT ], allow_if: "not is_granted('ROLE_USER')" }
+        - { route: "list_sensors", methods: [ GET ], allow_if: "not is_granted('ROLE_USER')" }
+        - { path: "%app.security.api_regex%", roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

@@ -15,17 +15,14 @@ use App\Repository\SensorRepository;
 use App\StateProcessor\ReadingProcessor;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
-use App\Util\ShortUuidGenerator;
 use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use PascalDeVink\ShortUuid\ShortUuid;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -40,6 +37,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             uriTemplate: 'sensors/{id}/add_reading',
             status: 204,
             input: ReadingInput::class,
+            name: 'add_reading',
             processor: ReadingProcessor::class,
         ),
     ])

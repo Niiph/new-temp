@@ -7,6 +7,4 @@ namespace App\DTO;
 class ReadingInput
 {
     public mixed $value;
-
-    public mixed $token;
 }

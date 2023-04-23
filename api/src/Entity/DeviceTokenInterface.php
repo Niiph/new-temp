@@ -15,4 +15,6 @@ interface DeviceTokenInterface extends IdentifiableInterface, CreatedAtInterface
     public function getExpirationTime(): CarbonInterface;
 
     public function getToken(): string;
+
+    public function isValid(): bool;
 }
