@@ -9,5 +9,7 @@ interface ReadingInterface extends CreatedAtInterface
 
     public function getValue(): float;
 
+    public function getType(): string;
+
     public function getSensor(): SensorInterface;
 }

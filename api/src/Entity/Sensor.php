@@ -74,6 +74,9 @@ class Sensor implements SensorInterface
     #[OneToMany(mappedBy: 'sensor', targetEntity: ReadingInterface::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $readings;
 
+    #[OneToMany(mappedBy: 'sensor', targetEntity: SensorSettingsInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $sensorSettings;
+
     public function __construct(
         DeviceInterface $device,
         string         $name,
@@ -96,6 +99,7 @@ class Sensor implements SensorInterface
         $this->createdAt = CarbonImmutable::now();
 
         $this->readings = new ArrayCollection();
+        $this->sensorSettings = new ArrayCollection();
     }
 
     public function getDevice(): DeviceInterface
@@ -184,6 +188,26 @@ class Sensor implements SensorInterface
     {
         if ($this->readings->contains($reading)) {
             $this->readings->removeElement($reading);
+        }
+    }
+
+    /** @return Collection<SensorSettingsInterface> */
+    public function getSensorSettings(): Collection
+    {
+        return $this->sensorSettings;
+    }
+
+    public function addSensorSettings(SensorSettingsInterface $sensorSettings): void
+    {
+        if (!$this->sensorSettings->contains($sensorSettings)) {
+            $this->sensorSettings->add($sensorSettings);
+        }
+    }
+
+    public function removeSensorSettings(SensorSettingsInterface $sensorSettings): void
+    {
+        if ($this->sensorSettings->contains($sensorSettings)) {
+            $this->sensorSettings->removeElement($sensorSettings);
         }
     }
 }

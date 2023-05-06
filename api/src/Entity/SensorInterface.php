@@ -41,4 +41,11 @@ interface SensorInterface extends IdentifiableInterface, CreatedAtInterface
     public function addReading(ReadingInterface $reading): void;
 
     public function removeReading(ReadingInterface $reading): void;
+
+    /** @return Collection<SensorSettingsInterface> */
+    public function getSensorSettings(): Collection;
+
+    public function addSensorSettings(SensorSettingsInterface $sensorSettings): void;
+
+    public function removeSensorSettings(SensorSettingsInterface $sensorSettings): void;
 }
