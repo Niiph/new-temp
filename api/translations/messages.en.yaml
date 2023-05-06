@@ -1,0 +1,3 @@
+app:
+    exception:
+        user_already_exists: 'User with email %username% already exists.'

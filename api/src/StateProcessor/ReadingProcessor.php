@@ -17,8 +17,7 @@ readonly class ReadingProcessor implements ProcessorInterface
     public function __construct(
         private EntityManagerInterface  $entityManager,
         private DeviceResolverInterface $deviceResolver,
-    )
-    {
+    ) {
     }
 
     /** @param ReadingInput $data */

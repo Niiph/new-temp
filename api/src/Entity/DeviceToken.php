@@ -34,10 +34,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'time',
             processor: DeviceTokenProcessor::class,
         ),
-        new Get(),
-        new Post(),
-        new GetCollection(),
-        new Delete(),
+//        new Get(),
+//        new Post(),
+//        new GetCollection(),
+//        new Delete(),
     ]
 )]
 #[UniqueEntity('id')]

@@ -1,0 +1,3 @@
+app:
+    exception:
+        user_already_exists: 'Użytkownik z adresem email %username% istnieje w systemie.'
