@@ -6,9 +6,10 @@ namespace App\Entity;
 
 use App\Util\AccountRole;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-interface UserInterface extends BaseUserInterface
+interface UserInterface extends BaseUserInterface, PasswordAuthenticatedUserInterface
 {
     public function getUsername(): string;
 
@@ -18,9 +19,9 @@ interface UserInterface extends BaseUserInterface
 
     public function setPassword(?string $password): void;
 
-    public function getPlainPassword(): ?string;
-
-    public function setPlainPassword(?string $plainPassword): void;
+//    public function getPlainPassword(): ?string;
+//
+//    public function setPlainPassword(?string $plainPassword): void;
 
     public function hasRole(AccountRole $accountRole): bool;
 

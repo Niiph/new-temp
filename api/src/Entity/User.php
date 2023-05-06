@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
+use App\DTO\RegisterUserInput;
+use App\StateProcessor\RegisterUserProcessor;
 use App\Util\AccountRole;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
@@ -22,8 +25,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 
+#[ApiResource(operations: [
+    new Post(
+        uriTemplate: 'register',
+        status: 204,
+        input: RegisterUserInput::class,
+        name: 'register_user',
+        processor: RegisterUserProcessor::class,
+    ),
+])]
 #[UniqueEntity('id')]
-#[ApiResource(mercure: true)]
 #[Entity]
 #[Table('users')]
 class User implements UserInterface
@@ -42,8 +53,8 @@ class User implements UserInterface
     #[Column(type: 'simple_array')]
     private array $roles;
 
-    #[Length(min: StringLengthUtil::PASSWORD_MIN, max: StringLengthUtil::PASSWORD_MAX)]
-    private ?string $plainPassword = null;
+//    #[Length(min: StringLengthUtil::PASSWORD_MIN, max: StringLengthUtil::PASSWORD_MAX)]
+//    private ?string $plainPassword = null;
 
     #[OneToMany(mappedBy: 'user', targetEntity: DeviceInterface::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $devices;
@@ -82,15 +93,15 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(?string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
+//    public function getPlainPassword(): ?string
+//    {
+//        return $this->plainPassword;
+//    }
+//
+//    public function setPlainPassword(?string $plainPassword): void
+//    {
+//        $this->plainPassword = $plainPassword;
+//    }
 
     public function getRoles(): array
     {
@@ -106,9 +117,9 @@ class User implements UserInterface
         return in_array($accountRole->value, $this->roles, true);
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        $this->plainPassword = null;
+//        $this->plainPassword = null;
     }
 
     public function getUserIdentifier(): string

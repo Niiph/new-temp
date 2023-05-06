@@ -33,10 +33,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'list_sensors',
             provider: SensorsListProvider::class,
         ),
-        new Get(),
-        new Post(),
-        new GetCollection(),
-        new Delete(),
+//        new Get(),
+//        new Post(),
+//        new GetCollection(),
+//        new Delete(),
     ])
 ]
 #[UniqueEntity(['id', 'shortId'])]

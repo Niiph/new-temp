@@ -29,10 +29,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
-        new Get(),
-        new Post(),
-        new GetCollection(),
-        new Delete(),
+//        new Get(),
+//        new Post(),
+//        new GetCollection(),
+//        new Delete(),
         new Put(
             uriTemplate: 'sensors/{id}/add_reading',
             status: 204,
