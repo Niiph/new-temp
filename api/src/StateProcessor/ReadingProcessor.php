@@ -30,13 +30,17 @@ readonly class ReadingProcessor implements ProcessorInterface
         $device = $this->deviceResolver->resolveDevice();
         $sensor = $device?->getSensors()->filter(static function (SensorInterface $sensor) use ($uriVariables) {
             return $sensor->getId()->equals($uriVariables['id']);
-            })->first();
+        })->first();
 
         if (!$sensor instanceof SensorInterface) {
             return;
         }
 
-        $reading = new Reading($data->value, $sensor);
+        $reading = new Reading(
+            $data->value,
+            $data->type,
+            $sensor
+        );
         $this->entityManager->persist($reading);
         $this->entityManager->flush();
     }

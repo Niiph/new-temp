@@ -10,6 +10,7 @@ class StringLengthUtil
     public const MAX          = 255;
     public const PASSWORD_MIN = 6;
     public const PASSWORD_MAX = 64;
+    public const TYPE_NAME    = 8;
 
     private function __construct()
     {

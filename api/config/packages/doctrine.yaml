@@ -25,6 +25,7 @@ doctrine:
             App\Entity\DeviceTokenInterface: App\Entity\DeviceToken
             App\Entity\ReadingInterface: App\Entity\Reading
             App\Entity\SensorInterface: App\Entity\Sensor
+            App\Entity\SensorSettingsInterface: App\Entity\SensorSettings
             App\Entity\UserInterface: App\Entity\User
 
 when@test:
