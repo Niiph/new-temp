@@ -36,5 +36,6 @@ readonly class RegisterUserProcessor implements ProcessorInterface
         $user->setPassword($hashedPassword);
 
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 }

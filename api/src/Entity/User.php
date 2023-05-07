@@ -65,7 +65,7 @@ class User implements UserInterface
         ?UuidInterface $id = null,
     ) {
         $this->username      = $username;
-        $this->roles         = $roles ?? AccountRole::ROLE_USER;
+        $this->roles         = $roles ?? [AccountRole::ROLE_USER->value];
         $this->id            = $id ?? Uuid::uuid4();
 
         $this->createdAt = CarbonImmutable::now();
