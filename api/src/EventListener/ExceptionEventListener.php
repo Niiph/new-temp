@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use ApiPlatform\Symfony\Validator\Exception\ValidationException;
 use App\Exception\TranslatableExceptionInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,10 +12,10 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ExceptionEventListener
+readonly class ExceptionEventListener
 {
     public function __construct(
-        private readonly TranslatorInterface $translator,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -22,12 +23,14 @@ class ExceptionEventListener
     public function onKernelException(ExceptionEvent $event): void
     {
         $throwable = $event->getThrowable();
-        if (!$throwable instanceof TranslatableExceptionInterface) {
-            return;
+        if ($throwable instanceof TranslatableExceptionInterface) {
+            $message = $this->translator->trans($throwable->getMessageTranslation(), $throwable->getMessageParameters());
+            $code = $throwable->getStatusCode();
+        }
+        if ($throwable instanceof ValidationException) {
+            $code = 422;
         }
 
-        $message = $this->translator->trans($throwable->getMessageTranslation(), $throwable->getMessageParameters());
-
-        $event->setResponse(new JsonResponse($message, $throwable->getStatusCode()));
+        $event->setResponse(new JsonResponse($message ?? $throwable->getMessage(), $code ?? $throwable->getStatusCode()));
     }
 }

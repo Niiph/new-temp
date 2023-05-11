@@ -1,5 +1,5 @@
 parameters:
-    app.security.api_route: ""
+    app.security.api_route: "api"
     app.security.api_regex: "^%app.security.api_route%"
     
 security:
@@ -46,7 +46,7 @@ security:
         - { route: "time", methods: [ POST ], allow_if: "not is_granted('ROLE_USER')" }
         - { route: "add_reading", methods: [ PUT ], allow_if: "not is_granted('ROLE_USER')" }
         - { route: "list_sensors", methods: [ GET ], allow_if: "not is_granted('ROLE_USER')" }
-        - { path: "%app.security.api_regex%", roles: IS_AUTHENTICATED_FULLY }
+#        - { path: "%app.security.api_regex%", roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
