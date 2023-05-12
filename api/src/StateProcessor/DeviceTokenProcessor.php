@@ -27,18 +27,18 @@ readonly class DeviceTokenProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): DeviceTokenOutput
     {
         if (empty($data->shortId) || !is_string($data->shortId)) {
-            return DeviceTokenOutput::create(CarbonImmutable::now());
+            return DeviceTokenOutput::createOutput(CarbonImmutable::now());
         }
 
         $device = $this->deviceRepository->findOneBy(['shortId' => $data->shortId]);
         if (!$device instanceof DeviceInterface) {
-            return DeviceTokenOutput::create(CarbonImmutable::now());
+            return DeviceTokenOutput::createOutput(CarbonImmutable::now());
         }
 
         $deviceToken = new DeviceToken($device, $this->deviceTokenExpiration);
         $device->addDeviceToken($deviceToken);
         $this->entityManager->flush();
 
-        return DeviceTokenOutput::create($deviceToken->getCreatedAt());
+        return DeviceTokenOutput::createOutput($deviceToken->getCreatedAt());
     }
 }

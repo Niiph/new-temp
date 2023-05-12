@@ -7,7 +7,7 @@ namespace App\DTO;
 use App\Entity\SensorInterface;
 use Ramsey\Uuid\UuidInterface;
 
-class SensorSimpleOutput
+class SensorSimpleOutput implements OutputInterface
 {
     public UuidInterface $id;
 
@@ -16,7 +16,8 @@ class SensorSimpleOutput
         $this->id = $id;
     }
 
-    public static function create(SensorInterface $device): self
+    /** @param SensorInterface $device */
+    public static function createOutput(mixed $device): self
     {
         return new self($device->getId());
     }

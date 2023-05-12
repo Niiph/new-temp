@@ -22,12 +22,12 @@ readonly class SensorsListProvider implements ProviderInterface
     {
         $device = $this->deviceResolver->resolveDevice();
 
-        if ($device->getShortId() !== $context['uri_variables']['id']) {
+        if (!$device || $device->getShortId() !== $context['uri_variables']['id']) {
             return null;
         }
 
         return $device->getSensors()->map(static function (SensorInterface $sensor) {
-            return SensorSimpleOutput::create($sensor);
+            return SensorSimpleOutput::createOutput($sensor);
         });
     }
 }

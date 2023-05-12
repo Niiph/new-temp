@@ -31,6 +31,6 @@ readonly class ExceptionEventListener
             $code = 422;
         }
 
-        $event->setResponse(new JsonResponse($message ?? $throwable->getMessage(), $code ?? $throwable->getStatusCode()));
+        $event->setResponse(new JsonResponse($message ?? $throwable->getMessage(), $code ?? 500));
     }
 }

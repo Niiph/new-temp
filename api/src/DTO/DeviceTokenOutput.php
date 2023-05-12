@@ -6,7 +6,7 @@ namespace App\DTO;
 
 use Carbon\CarbonInterface;
 
-class DeviceTokenOutput
+class DeviceTokenOutput implements OutputInterface
 {
     public function __construct(
         public CarbonInterface $date,
@@ -14,7 +14,8 @@ class DeviceTokenOutput
     {
     }
 
-    public static function create(CarbonInterface $date): self
+    /** @param CarbonInterface $date */
+    public static function createOutput(mixed $date): self
     {
         return new self($date);
     }
