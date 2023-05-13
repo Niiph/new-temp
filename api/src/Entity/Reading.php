@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -6,6 +14,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use App\Util\CreatedAtTrait;
+use App\Util\IdentifiableTrait;
 use App\Util\StringLengthUtil;
 use Carbon\CarbonImmutable;
 use Doctrine\ORM\Mapping\Column;
@@ -24,9 +33,9 @@ class Reading implements ReadingInterface
 
     #[ApiProperty(identifier: true)]
     #[Column(unique: true), Id, GeneratedValue]
-    private int $id;
+    private ?int $id = null;
 
-    #[Column(type: 'float', precision: 2,)]
+    #[Column(type: 'float', precision: 2)]
     private float $value;
 
     #[Column(type: 'string', length: StringLengthUtil::TYPE_NAME)]
@@ -41,7 +50,8 @@ class Reading implements ReadingInterface
         string          $type,
         SensorInterface $sensor,
     ) {
-        $this->value  = $value;;
+        $this->value  = $value;
+        ;
         $this->type   = $type;
         $this->sensor = $sensor;
 

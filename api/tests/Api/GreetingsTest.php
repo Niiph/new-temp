@@ -12,7 +12,7 @@ class GreetingsTest extends ApiTestCase
             'POST',
             '/time',
             ['headers' => ['accept' => ['application/json']],
-                'json' => ['shortId' => 'H4RGYLKDWW7N6BWCDMQHNZAHW2']]
+                'json' => ['shortId' => 'H4RGYLKDWW7N6BWCDMQHNZAHW2'], ]
         );
 
         $this->assertResponseStatusCodeSame(201);

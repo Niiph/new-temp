@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -29,10 +37,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
-//        new Get(),
-//        new Post(),
-//        new GetCollection(),
-//        new Delete(),
+    //        new Get(),
+    //        new Post(),
+    //        new GetCollection(),
+    //        new Delete(),
         new Put(
             uriTemplate: 'sensors/{id}/add_reading',
             status: 204,
@@ -40,7 +48,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'add_reading',
             processor: ReadingProcessor::class,
         ),
-    ])
+    ]
+)
 ]
 #[UniqueEntity('id')]
 #[Entity(repositoryClass: SensorRepository::class)]
@@ -79,12 +88,12 @@ class Sensor implements SensorInterface
 
     public function __construct(
         DeviceInterface $device,
-        string         $name,
-        int            $pin,
-        string         $address,
-        ?int           $minimum = null,
-        ?int           $maximum = null,
-        bool           $active = false,
+        string $name,
+        int $pin,
+        string $address,
+        ?int $minimum = null,
+        ?int $maximum = null,
+        bool $active = false,
         ?UuidInterface $id = null
     ) {
         $this->device = $device;

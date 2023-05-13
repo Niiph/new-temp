@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -27,9 +35,8 @@ readonly class DeviceResolver implements DeviceResolverInterface
             return null;
         }
 
-        /** @var DeviceTokenInterface $token */
+        /** @var ?DeviceTokenInterface $token */
         $token = $this->deviceTokenRepository->findOneBy(['token' => $token]);
-        dump($token);
         if (!$token || !$token->isValid()) {
             return null;
         }

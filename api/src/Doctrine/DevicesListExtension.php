@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -22,13 +30,12 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
     }
 
     public function applyToCollection(
-        QueryBuilder                $queryBuilder,
+        QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
-        string                      $resourceClass,
-        Operation                   $operation = null,
-        array                       $context = []
-    ): void
-    {
+        string $resourceClass,
+        Operation $operation = null,
+        array $context = []
+    ): void {
         if (!is_a($resourceClass, DeviceInterface::class, true) || self::NAME !== $operation->getShortName()) {
             return;
         }

@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -10,12 +18,13 @@ use Ramsey\Uuid\UuidInterface;
 
 class DeviceListOutput implements OutputInterface
 {
-public function __construct(
-    public UuidInterface $id,
-    public string $name,
-    /** @var SensorListOutput[] $sensors */
-    public array $sensors,
-) {}
+    public function __construct(
+        public UuidInterface $id,
+        public string $name,
+        /** @var SensorListOutput[] $sensors */
+        public array $sensors,
+    ) {
+    }
 
     /** @param DeviceInterface $data */
     public static function createOutput(mixed $data): self
@@ -24,10 +33,10 @@ public function __construct(
             return SensorListOutput::createOutput($sensor);
         })->toArray();
 
-       return new self(
-           $data->getId(),
-           $data->getName(),
-           $sensors,
-       );
+        return new self(
+            $data->getId(),
+            $data->getName(),
+            $sensors,
+        );
     }
 }

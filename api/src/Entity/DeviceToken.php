@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -34,10 +42,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'time',
             processor: DeviceTokenProcessor::class,
         ),
-//        new Get(),
-//        new Post(),
-//        new GetCollection(),
-//        new Delete(),
+    //        new Get(),
+    //        new Post(),
+    //        new GetCollection(),
+    //        new Delete(),
     ]
 )]
 #[UniqueEntity('id')]
@@ -48,7 +56,7 @@ class DeviceToken implements DeviceTokenInterface
     use IdentifiableTrait;
     use CreatedAtTrait;
 
-    #[ManyToOne(targetEntity: DeviceInterface::class, cascade: ['persist'],inversedBy: 'deviceTokens')]
+    #[ManyToOne(targetEntity: DeviceInterface::class, cascade: ['persist'], inversedBy: 'deviceTokens')]
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private DeviceInterface $device;
 
@@ -75,7 +83,8 @@ class DeviceToken implements DeviceTokenInterface
                 '%s_%s_%s',
                 $device->getDevicePassword(),
                 $device->getShortId(),
-                $this->createdAt->toString())
+                $this->createdAt->toString()
+            )
         );
     }
 

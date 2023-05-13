@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -35,16 +43,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'list_sensors',
             provider: SensorsListProvider::class,
         ),
-//        new Get(),
-//        new Post(),
+    //        new Get(),
+    //        new Post(),
         new GetCollection(
             shortName: 'devices',
             security: 'is_granted("list_devices", object)',
             output: DeviceListOutput::class,
             provider: OutputCollectionProvider::class,
         ),
-//        new Delete(),
-    ])
+    //        new Delete(),
+    ]
+)
 ]
 #[UniqueEntity(['id', 'shortId'])]
 #[Entity(DeviceRepository::class)]
@@ -76,9 +85,9 @@ class Device implements DeviceInterface
     private Collection $deviceTokens;
 
     public function __construct(
-        UserInterface  $user,
-        string         $name,
-        bool           $active = false,
+        UserInterface $user,
+        string $name,
+        bool $active = false,
         ?UuidInterface $id = null
     ) {
         $this->user    = $user;
@@ -145,7 +154,7 @@ class Device implements DeviceInterface
         }
     }
 
-    /** @return Collection<DeviceTokenInterface */
+    /** @return Collection<DeviceTokenInterface> */
     public function getDeviceTokens(): Collection
     {
         return $this->deviceTokens;
@@ -167,7 +176,7 @@ class Device implements DeviceInterface
 
     public function isTokenValid(string $token): bool
     {
-        $deviceToken = $this->deviceTokens->filter(static function (DeviceTokenInterface $deviceToken) use($token) {
+        $deviceToken = $this->deviceTokens->filter(static function (DeviceTokenInterface $deviceToken) use ($token) {
             return $deviceToken->getToken() === $token;
         })->first();
 
