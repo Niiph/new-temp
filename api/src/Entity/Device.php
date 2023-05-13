@@ -9,7 +9,9 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\DTO\DeviceListOutput;
 use App\Repository\DeviceRepository;
+use App\StateProvider\OutputCollectionProvider;
 use App\StateProvider\SensorsListProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
@@ -35,7 +37,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ),
 //        new Get(),
 //        new Post(),
-//        new GetCollection(),
+        new GetCollection(
+            shortName: 'devices',
+            security: 'is_granted("list_devices", object)',
+            output: DeviceListOutput::class,
+            provider: OutputCollectionProvider::class,
+        ),
 //        new Delete(),
     ])
 ]
