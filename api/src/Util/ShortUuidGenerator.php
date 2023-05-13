@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the *TBD* package.
+ *
+ * (c) Piotr Opioła <piotr@opiola.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
@@ -21,12 +29,14 @@ final class ShortUuidGenerator
     public static function getShortUuid(UuidInterface $uuid): string
     {
         $shortUuid = new ShortUuid(self::ALPHABET);
+
         return $shortUuid->encode($uuid);
     }
 
     public static function getFullUuid(string $uuid): UuidInterface
     {
         $shortUuid = new ShortUuid(self::ALPHABET);
+
         return $shortUuid->decode($uuid);
     }
 }

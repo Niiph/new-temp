@@ -32,6 +32,10 @@ jobs:
             esac
           done
           exit 1
+      - name: Run phpcs
+        run: docker compose exec -T php php vendor/bin/phpcs
+      - name: Run phpstan
+        run: docker compose exec -T php php -d memory_limit=4G vendor/bin/phpstan
       - name: Check HTTP reachability
         run: curl -v -o /dev/null http://localhost
       - name: Check API reachability
