@@ -29,6 +29,7 @@ import AnimateButton from 'components/@extended/AnimateButton';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { aliases as RouteAliases } from 'routes/MainRoutes';
+import Links from 'routes/ApiRoutes';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -62,7 +63,7 @@ const AuthLogin = () => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        const response = await axios.post(`${process.env.REACT_APP_API_URL}/login_check`, {
+                        const response = await axios.post(Links('login'), {
                             username: values.email,
                             password: values.password
                         });

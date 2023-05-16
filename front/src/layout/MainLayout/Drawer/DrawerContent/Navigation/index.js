@@ -9,6 +9,9 @@ import menuItem from 'menu-items';
 
 const Navigation = () => {
     const navGroups = menuItem.items.map((item) => {
+        if (item.type == null) {
+            return;
+        }
         switch (item.type) {
             case 'group':
                 return <NavGroup key={item.id} item={item} />;
@@ -25,3 +28,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+// Authorization: 'Bearer ' + localStorage.getItem('jwt_token')

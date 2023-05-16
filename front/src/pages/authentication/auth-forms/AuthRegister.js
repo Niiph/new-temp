@@ -30,6 +30,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { aliases as LoginAliases } from 'routes/LoginRoutes';
+import Links from 'routes/ApiRoutes';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
@@ -68,7 +69,7 @@ const AuthRegister = () => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, {
+                        const response = await axios.post(Links('register'), {
                             username: values.email,
                             password: values.password
                         });
