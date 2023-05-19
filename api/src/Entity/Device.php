@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use App\DTO\DeviceListOutput;
+use App\DTO\DeviceFullOutput;
+use App\DTO\DeviceOutput;
 use App\Repository\DeviceRepository;
 use App\StateProvider\OutputCollectionProvider;
+use App\StateProvider\OutputItemProvider;
 use App\StateProvider\SensorsListProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
@@ -46,10 +46,24 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     //        new Get(),
     //        new Post(),
         new GetCollection(
-            shortName: 'devices',
+            uriTemplate: 'devices',
+            shortName: 'devices_list',
             security: 'is_granted("list_devices", object)',
-            output: DeviceListOutput::class,
+            output: DeviceOutput::class,
             provider: OutputCollectionProvider::class,
+        ),
+        new GetCollection(
+            uriTemplate: 'devices/full_list',
+            shortName: 'devices_full_list',
+            security: 'is_granted("list_devices", object)',
+            output: DeviceFullOutput::class,
+            provider: OutputCollectionProvider::class,
+        ),
+        new Get(
+            uriTemplate: 'devices/{id}',
+            security: 'is_granted("list_devices", object)',
+            output: DeviceFullOutput::class,
+            provider: OutputItemProvider::class,
         ),
     //        new Delete(),
     ]

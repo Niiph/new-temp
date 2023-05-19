@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use ApiPlatform\Doctrine\Orm\Paginator;
 use ApiPlatform\State\Pagination\PaginatorInterface;
 use App\Entity\DeviceInterface;
 use App\Entity\UserInterface;
 use LogicException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

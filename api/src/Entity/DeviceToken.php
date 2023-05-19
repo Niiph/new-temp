@@ -83,7 +83,7 @@ class DeviceToken implements DeviceTokenInterface
                 '%s_%s_%s',
                 $device->getDevicePassword(),
                 $device->getShortId(),
-                $this->createdAt->toString()
+                $this->createdAt->toIso8601String()
             )
         );
     }
