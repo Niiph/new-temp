@@ -16,29 +16,26 @@ use App\Entity\DeviceInterface;
 use App\Entity\SensorInterface;
 use Ramsey\Uuid\UuidInterface;
 
-class DeviceFullOutput implements OutputInterface
+class DeviceFullListOutput implements OutputInterface
 {
     public function __construct(
         public UuidInterface $id,
         public string        $name,
         public bool          $active,
-        /** @var SensorFullListOutput[] $sensors */
-        public array         $sensors,
+        public string        $shortId,
+        public string        $password,
     ) {
     }
 
     /** @param DeviceInterface $data */
     public static function createOutput(mixed $data): self
     {
-        $sensors = $data->getSensors()->map(static function (SensorInterface $sensor) {
-            return SensorFullListOutput::createOutput($sensor);
-        })->toArray();
-
         return new self(
             $data->getId(),
             $data->getName(),
             $data->isActive(),
-            $sensors,
+            $data->getShortId(),
+            $data->getDevicePassword(),
         );
     }
 }

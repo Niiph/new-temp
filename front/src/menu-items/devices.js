@@ -64,17 +64,38 @@ const initializeDashboard = async () => {
 
 const InitializeDashboardAsync = async () => {
     const children = await initializeDashboard();
-    dashboard.children = children;
+    Devices.children = [
+        {
+            id: 'devices-group',
+            title: 'Devices',
+            type: 'collapse',
+            url: `/devices`,
+            icon: icons.LoginOutlined,
+            breadcrumbs: false,
+            children: children
+        }
+    ];
 };
 
-const dashboard = {
-    id: 'group-dashboard',
+const Devices = {
+    id: 'group-devices',
     title: 'Devices',
     type: 'group',
-    children: [] // Initialize with an empty array
+    breadcrumbs: false,
+    children: [
+        {
+            id: 'devices-group',
+            title: 'Devices',
+            type: 'collapse',
+            url: `/devices`,
+            icon: icons.LoginOutlined,
+            breadcrumbs: false,
+            children: []
+        }
+    ]
 };
 
-// Call the initializeDashboardAsync function to populate the dashboard with data
+// Call the initializeDashboardAsync function to populate the devices with data
 InitializeDashboardAsync();
 
-export default dashboard;
+export default Devices;

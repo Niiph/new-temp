@@ -73,7 +73,7 @@ const AuthLogin = () => {
                             const { token } = response.data;
                             localStorage.setItem('jwt_token', token);
                             localStorage.setItem('username', values.email);
-                            navigate(RouteAliases.dashboard);
+                            navigate(RouteAliases.home);
                         }
                     } catch (error) {
                         console.log(error);

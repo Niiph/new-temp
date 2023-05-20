@@ -4,7 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 
-// render - dashboard
+// render - devices
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
 // render - sample page
@@ -16,11 +16,17 @@ const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
 const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
+const Device = Loadable(lazy(() => import('pages/device/DeviceView')));
+const Devices = Loadable(lazy(() => import('pages/device/DeviceListView')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 const aliases = {
     home: '/',
     dashboard: '/dashboard',
     profile: '/profile',
+    devices: '/devices',
+    device: '/device/:id',
+    sensor: '/sensor/:id',
     notFound: '*'
 };
 export { aliases };
@@ -33,12 +39,20 @@ const MainRoutes = {
             element: <DashboardDefault />
         },
         {
-            path: '/color',
-            element: <Color />
+            path: aliases.devices,
+            element: <Devices />
         },
         {
-            path: aliases.dashboard,
-            element: <DashboardDefault />
+            path: aliases.device,
+            element: <Device />
+        },
+        {
+            path: aliases.sensor,
+            element: <Device />
+        },
+        {
+            path: '/color',
+            element: <Color />
         },
         {
             path: '/sample-page',

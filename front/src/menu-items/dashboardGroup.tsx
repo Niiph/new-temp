@@ -13,8 +13,8 @@ const DashboardGroup: React.FC = () => {
 
     return (
         <Collapse activeKey={activeKey} onChange={handlePanelChange}>
-            <Panel header="Navigation" key="group-dashboard">
-                <Panel header="Dashboardo" key="dashboard">
+            <Panel header="Navigation" key="group-devices">
+                <Panel header="Dashboardo" key="devices">
                     {/* You can put your content for Dashboardo here */}
                 </Panel>
             </Panel>
