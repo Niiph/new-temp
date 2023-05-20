@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Grid, Switch, Typography } from '@mui/material';
+import { Grid, Switch, Typography, TextField, Popover, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import MainCard from 'components/MainCard';
-import axios from 'axios';
+import { Get, Put } from 'components/ApiRequest';
 import Links from 'routes/ApiRoutes';
 import * as Icons from '@ant-design/icons';
+import EditableTextField from 'components/EditableTextField';
+import { usePopupState, bindTrigger, bindPopover } from 'material-ui-popup-state/hooks';
 
 const CardContent = styled('div')({
     display: 'flex',
@@ -20,10 +22,11 @@ const TitleContainer = styled('div')({
     gap: '8px'
 });
 
-const Title = styled(Typography)({
+const Title = styled('div')(({ isEditing }) => ({
     fontSize: '1.5rem',
-    fontWeight: 'bold'
-});
+    fontWeight: 'bold',
+    cursor: isEditing ? 'default' : 'pointer'
+}));
 
 const DeviceInfo = styled(Typography)({
     display: 'flex',
@@ -31,23 +34,20 @@ const DeviceInfo = styled(Typography)({
     gap: '8px'
 });
 
-const config = {
-    headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
-    }
-};
-
 const DeviceView = () => {
     const { id } = useParams();
     const [device, setDevice] = useState(null);
     const [isActive, setIsActive] = useState(false);
+    const [editedTitle, setEditedTitle] = useState('');
+    const popupState = usePopupState({ variant: 'popover', popupId: 'password-popover' });
 
     useEffect(() => {
         const fetchDeviceData = async () => {
             try {
-                const response = await axios.get(Links(`devices`, id), config);
-                setDevice(response.data);
-                setIsActive(response.data.active);
+                const response = await Get(Links(`devices`, id));
+                setDevice(response);
+                setIsActive(response.active);
+                setEditedTitle(response.name);
             } catch (error) {
                 console.error('Error fetching device data:', error);
             }
@@ -65,9 +65,18 @@ const DeviceView = () => {
                 active: updatedIsActive // Use the updated value
             };
 
-            await axios.put(Links('deviceChangeActive', id), payload, config);
+            await Put(Links('deviceChangeActive', id), payload);
         } catch (error) {
             console.error('Error updating device active state:', error);
+        }
+    };
+
+    const handleGeneratePasswordConfirm = async () => {
+        try {
+            setDevice(await Put(Links('deviceChangePassword', id), {}));
+            popupState.close();
+        } catch (error) {
+            console.error('Error generating new password:', error);
         }
     };
 
@@ -99,7 +108,9 @@ const DeviceView = () => {
             <MainCard>
                 <CardContent>
                     <TitleContainer>
-                        <Title>{device.name}</Title>
+                        <Title>
+                            <EditableTextField value={editedTitle} property="name" url={Links('deviceChangeName', id)} />
+                        </Title>
                         <Switch
                             label=""
                             color="success"
@@ -121,6 +132,27 @@ const DeviceView = () => {
                             <strong>Password:</strong>
                         </Typography>
                         <Typography variant="body1">{device.password}</Typography>
+                        <div>
+                            <Button {...bindTrigger(popupState)}>
+                                <Icons.RedoOutlined style={{ color: 'red' }} />
+                            </Button>
+                            <Popover
+                                {...bindPopover(popupState)}
+                                anchorOrigin={{
+                                    vertical: 'center',
+                                    horizontal: 'right'
+                                }}
+                                transformOrigin={{
+                                    vertical: 'center',
+                                    horizontal: 'left'
+                                }}
+                            >
+                                <Typography sx={{ p: 2 }}>
+                                    <Typography variant="body1">Are you sure you want to generate a new password?</Typography>
+                                    <Button onClick={handleGeneratePasswordConfirm}>Confirm</Button>
+                                </Typography>
+                            </Popover>
+                        </div>
                     </DeviceInfo>
                 </CardContent>
             </MainCard>

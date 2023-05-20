@@ -14,7 +14,6 @@ namespace App\Security;
 
 use ApiPlatform\State\Pagination\PaginatorInterface;
 use App\Entity\DeviceInterface;
-use App\Entity\SensorInterface;
 use App\Entity\UserInterface;
 use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -25,9 +24,16 @@ class DeviceVoter extends Voter
     public const LIST = 'list_devices';
     public const VIEW = 'device_get';
     public const CHANGE_ACTIVE = 'device_change_active';
+    public const CREATE = 'device_create';
+    public const CHANGE_PASSWORD = 'device_change_password';
+    public const CHANGE_NAME = 'device_change_name';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
+        if (self::CREATE === $attribute && null === $subject) {
+            return true;
+        }
+
         if (self::LIST === $attribute && $subject instanceof PaginatorInterface) {
             return true;
         }
@@ -35,6 +41,8 @@ class DeviceVoter extends Voter
         if (!in_array($attribute, [
             self::VIEW,
             self::CHANGE_ACTIVE,
+            self::CHANGE_PASSWORD,
+            self::CHANGE_NAME,
         ])) {
             return false;
         }
@@ -50,7 +58,10 @@ class DeviceVoter extends Voter
         }
 
         return match ($attribute) {
-            self::LIST => true,
+            self::LIST,
+            self::CREATE => true,
+            self::CHANGE_NAME,
+            self::CHANGE_PASSWORD,
             self::CHANGE_ACTIVE,
             self::VIEW => $this->canView($user, $subject),
             default => throw new LogicException('Misconfigured voter')

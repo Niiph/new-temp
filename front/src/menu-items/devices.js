@@ -39,7 +39,6 @@ const initializeDashboard = async () => {
                     title: sensorTitle,
                     type: 'item',
                     url: `/sensor/${sensorId}`,
-                    icon: icons.AimOutlined,
                     breadcrumbs: false
                 };
             });

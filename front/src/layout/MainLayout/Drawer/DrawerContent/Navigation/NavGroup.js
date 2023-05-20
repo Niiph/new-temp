@@ -38,6 +38,7 @@ const NavGroup = ({ item }) => {
                             id={`${menuItem.id}-header`}
                             sx={{
                                 padding: 0,
+                                paddingRight: 1,
                                 '&:not(:last-child)': {
                                     borderBottom: 0
                                 },

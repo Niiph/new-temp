@@ -15,13 +15,21 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\DTO\ChangeActiveInput;
+use App\DTO\ChangeNameInput;
+use App\DTO\DeviceCreateInput;
 use App\DTO\DeviceFullListOutput;
 use App\DTO\DeviceOutput;
 use App\DTO\DeviceShortListOutput;
+use App\DTO\DeviceSimpleOutput;
 use App\Repository\DeviceRepository;
-use App\StateProcessor\SensorChangeActiveProcessor;
+use App\StateProcessor\DeviceCreateProcessor;
+use App\StateProcessor\ChangeActiveProcessor;
+use App\StateProcessor\SensorChangeNameProcessor;
+use App\StateProcessor\SensorChangePasswordProcessor;
 use App\StateProvider\OutputCollectionProvider;
 use App\StateProvider\OutputItemProvider;
 use App\StateProvider\SensorsListProvider;
@@ -62,6 +70,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             output: DeviceFullListOutput::class,
             provider: OutputCollectionProvider::class,
         ),
+        new GetCollection(
+            uriTemplate: 'devices/simple_list',
+            shortName: 'devices_simple_list',
+            security: 'is_granted("list_devices", object)',
+            output: DeviceSimpleOutput::class,
+            provider: OutputCollectionProvider::class,
+        ),
         new Get(
             uriTemplate: 'devices/{id}',
             security: 'is_granted("device_get", object)',
@@ -72,7 +87,25 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             uriTemplate: '/devices/{id}/change_active',
             security: 'is_granted("device_change_active", object)',
             input: ChangeActiveInput::class,
-            processor: SensorChangeActiveProcessor::class,
+            processor: ChangeActiveProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/devices/{id}/change_password',
+            security: 'is_granted("device_change_password", object)',
+            output: DeviceOutput::class,
+            processor: SensorChangePasswordProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/devices/{id}/change_name',
+            security: 'is_granted("device_change_name", object)',
+            input: ChangeNameInput::class,
+            output: DeviceOutput::class,
+            processor: SensorChangeNameProcessor::class,
+        ),
+        new Post(
+            security: 'is_granted("device_create")',
+            input: DeviceCreateInput::class,
+            processor: DeviceCreateProcessor::class,
         ),
     ]
 )]
@@ -96,8 +129,8 @@ class Device implements DeviceInterface
     #[ManyToOne(targetEntity: UserInterface::class, cascade: ['persist', 'remove'], inversedBy: 'devices')]
     private UserInterface $user;
 
-    #[Column(type: 'string', nullable: true)]
-    private ?string $devicePassword = null;
+    #[Column(type: 'string')]
+    private string $devicePassword;
 
     #[OrderBy(['active' => 'DESC', 'name' => 'ASC'])]
     #[OneToMany(mappedBy: 'device', targetEntity: SensorInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -112,11 +145,12 @@ class Device implements DeviceInterface
         bool $active = false,
         ?UuidInterface $id = null
     ) {
-        $this->user    = $user;
-        $this->name    = $name;
-        $this->active  = $active;
-        $this->id      = $id ?? Uuid::uuid4();
-        $this->shortId = ShortUuidGenerator::getShortUuid($this->id);
+        $this->user           = $user;
+        $this->name           = $name;
+        $this->active         = $active;
+        $this->id             = $id ?? Uuid::uuid4();
+        $this->shortId        = ShortUuidGenerator::getShortUuid($this->id);
+        $this->devicePassword = $this->generateDevicePassword();
 
         $this->createdAt = CarbonImmutable::now();
 
@@ -127,6 +161,11 @@ class Device implements DeviceInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function isActive(): bool

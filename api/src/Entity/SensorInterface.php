@@ -24,13 +24,13 @@ interface SensorInterface extends IdentifiableInterface, CreatedAtInterface, Act
 
     public function setName(string $name): void;
 
-    public function getPin(): int;
+    public function getPin(): ?int;
 
-    public function setPin(int $pin): void;
+    public function setPin(?int $pin): void;
 
-    public function getAddress(): string;
+    public function getAddress(): ?string;
 
-    public function setAddress(string $address): void;
+    public function setAddress(?string $address): void;
 
     public function getMinimum(): ?int;
 
