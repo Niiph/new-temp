@@ -12,15 +12,11 @@ declare(strict_types=1);
 
 namespace App\StateProvider;
 
-use ApiPlatform\Doctrine\Orm\Paginator;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\TraversablePaginator;
 use ApiPlatform\State\ProviderInterface;
 use App\DTO\OutputInterface;
 use App\Exception\InvalidOperationException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class OutputItemProvider implements ProviderInterface

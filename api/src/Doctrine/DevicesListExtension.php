@@ -22,7 +22,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class DevicesListExtension implements QueryCollectionExtensionInterface
 {
-    private const NAME = 'devices';
+    private const LIST = 'devices_list';
+    private const FULL_LIST = 'devices_full_list';
 
     public function __construct(
         private readonly Security $security,
@@ -36,7 +37,7 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
         Operation $operation = null,
         array $context = []
     ): void {
-        if (!is_a($resourceClass, DeviceInterface::class, true) || self::NAME !== $operation->getShortName()) {
+        if (!is_a($resourceClass, DeviceInterface::class, true) || !in_array($operation->getShortName(), $this->shortNames())) {
             return;
         }
 
@@ -49,5 +50,17 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
         $queryBuilder
             ->andWhere($alias.'.user = :user')
             ->setParameter('user', $user);
+
+        if (self::LIST === $operation->getShortName()) {
+            $queryBuilder->andWhere($alias.'.active = true');
+        }
+    }
+
+    private function shortNames(): array
+    {
+        return [
+            self::LIST,
+            self::FULL_LIST,
+        ];
     }
 }
