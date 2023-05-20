@@ -20,24 +20,19 @@ use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class DeviceVoter extends Voter
+class SensorVoter extends Voter
 {
-    public const LIST = 'list_devices';
-    public const VIEW = 'device_get';
+    public const VIEW = 'sensor_get';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        if (self::LIST === $attribute && $subject instanceof PaginatorInterface) {
-            return true;
-        }
-
         if (!in_array($attribute, [
             self::VIEW,
         ])) {
-            return false;
+            return true;
         }
 
-        return $subject instanceof DeviceInterface;
+        return $subject instanceof SensorInterface;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -48,14 +43,13 @@ class DeviceVoter extends Voter
         }
 
         return match ($attribute) {
-            self::LIST => true,
             self::VIEW => $this->canView($user, $subject),
             default => throw new LogicException('Misconfigured voter')
         };
     }
 
-    private function canView(UserInterface $user, DeviceInterface $device): bool
+    private function canView(UserInterface $user, SensorInterface $sensor): bool
     {
-        return $device->getUser() === $user;
+        return $sensor->getDevice()->getUser() === $user;
     }
 }

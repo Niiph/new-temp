@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Chip, Grid, Typography } from '@mui/material';
+import { Switch, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import MainCard from 'components/MainCard';
 import axios from 'axios';
@@ -63,24 +63,39 @@ const SensorView = () => {
             <CardContent>
                 <TitleContainer>
                     <Title>{device.name}</Title>
-                    <Chip
-                        color={device.active ? 'success' : 'error'}
-                        icon={<Icons.PoweroffOutlined style={{ fontSize: '1rem', color: 'success' }} />}
-                        sx={{ ml: 1.25, pl: 1 }}
-                        size="small"
-                    />
+                    <Switch label="" color="success" defaultChecked={!!device.active} />
                 </TitleContainer>
                 <DeviceInfo>
                     <Typography variant="body1">
-                        <strong>Short ID:</strong>
+                        <strong>Pin:</strong>
                     </Typography>
-                    <Typography variant="body1">{device.shortId}</Typography>
+                    <Typography variant="body1" color={device.pin ? 'textPrimary' : 'textSecondary'}>
+                        {device.pin ?? 'empty'}
+                    </Typography>
                 </DeviceInfo>
                 <DeviceInfo>
                     <Typography variant="body1">
-                        <strong>Password:</strong>
+                        <strong>Address:</strong>
                     </Typography>
-                    <Typography variant="body1">{device.password}</Typography>
+                    <Typography variant="body1" color={device.address ? 'textPrimary' : 'textSecondary'}>
+                        {device.address ?? 'empty'}
+                    </Typography>
+                </DeviceInfo>
+                <DeviceInfo>
+                    <Typography variant="body1">
+                        <strong>Minimum:</strong>
+                    </Typography>
+                    <Typography variant="body1" color={device.minimum ? 'textPrimary' : 'textSecondary'}>
+                        {device.minimum ?? 'empty'}
+                    </Typography>
+                </DeviceInfo>
+                <DeviceInfo>
+                    <Typography variant="body1">
+                        <strong>Maximum:</strong>
+                    </Typography>
+                    <Typography variant="body1" color={device.maximum ? 'textPrimary' : 'textSecondary'}>
+                        {device.maximum ?? 'empty'}
+                    </Typography>
                 </DeviceInfo>
             </CardContent>
         </MainCard>

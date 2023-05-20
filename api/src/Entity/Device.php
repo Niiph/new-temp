@@ -63,7 +63,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ),
         new Get(
             uriTemplate: 'devices/{id}',
-            security: 'is_granted("list_devices", object)',
+            security: 'is_granted("device_get", object)',
             output: DeviceOutput::class,
             provider: OutputItemProvider::class,
         ),

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { Chip, Grid, Typography } from '@mui/material';
+import { Grid, Switch, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import MainCard from 'components/MainCard';
 import axios from 'axios';
@@ -67,12 +67,7 @@ const DeviceListView = () => {
                             <CardContent>
                                 <TitleContainer>
                                     <Title>{device.name}</Title>
-                                    <Chip
-                                        color={device.active ? 'success' : 'error'}
-                                        icon={<Icons.PoweroffOutlined style={{ fontSize: '1rem', color: 'success' }} />}
-                                        sx={{ ml: 1.25, pl: 1 }}
-                                        size="small"
-                                    />
+                                    <Switch label="" color="success" defaultChecked={!!device.active} disabled />
                                 </TitleContainer>
                                 <DeviceInfo>
                                     <Typography variant="body1">

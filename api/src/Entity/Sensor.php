@@ -19,8 +19,10 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\DTO\ReadingInput;
+use App\DTO\SensorOutput;
 use App\Repository\SensorRepository;
 use App\StateProcessor\ReadingProcessor;
+use App\StateProvider\OutputItemProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
 use Carbon\CarbonImmutable;
@@ -47,6 +49,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             input: ReadingInput::class,
             name: 'add_reading',
             processor: ReadingProcessor::class,
+        ),
+        new Get(
+            security: 'is_granted("sensor_get", object)',
+            output: SensorOutput::class,
+            provider: OutputItemProvider::class,
         ),
     ]
 )
