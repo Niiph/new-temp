@@ -14,7 +14,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 
-interface SensorInterface extends IdentifiableInterface, CreatedAtInterface
+interface SensorInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface
 {
     public function getDevice(): DeviceInterface;
 
@@ -39,10 +39,6 @@ interface SensorInterface extends IdentifiableInterface, CreatedAtInterface
     public function getMaximum(): ?int;
 
     public function setMaximum(?int $maximum): void;
-
-    public function isActive(): bool;
-
-    public function setActive(bool $active): void;
 
     public function getReadings(): Collection;
 

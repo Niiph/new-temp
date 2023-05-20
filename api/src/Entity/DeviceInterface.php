@@ -14,11 +14,9 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 
-interface DeviceInterface extends IdentifiableInterface, CreatedAtInterface
+interface DeviceInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface
 {
     public function getName(): string;
-
-    public function isActive(): bool;
 
     public function getShortId(): string;
 
