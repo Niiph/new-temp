@@ -23,11 +23,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class SensorVoter extends Voter
 {
     public const VIEW = 'sensor_get';
+    public const CHANGE_ACTIVE = 'sensor_change_active';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         if (!in_array($attribute, [
             self::VIEW,
+            self::CHANGE_ACTIVE,
         ])) {
             return true;
         }
@@ -43,6 +45,7 @@ class SensorVoter extends Voter
         }
 
         return match ($attribute) {
+            self::CHANGE_ACTIVE,
             self::VIEW => $this->canView($user, $subject),
             default => throw new LogicException('Misconfigured voter')
         };

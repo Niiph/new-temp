@@ -15,10 +15,13 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
+use App\DTO\ChangeActiveInput;
 use App\DTO\DeviceFullListOutput;
 use App\DTO\DeviceOutput;
 use App\DTO\DeviceShortListOutput;
 use App\Repository\DeviceRepository;
+use App\StateProcessor\SensorChangeActiveProcessor;
 use App\StateProvider\OutputCollectionProvider;
 use App\StateProvider\OutputItemProvider;
 use App\StateProvider\SensorsListProvider;
@@ -45,8 +48,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'list_sensors',
             provider: SensorsListProvider::class,
         ),
-    //        new Get(),
-    //        new Post(),
         new GetCollection(
             uriTemplate: 'devices',
             shortName: 'devices_list',
@@ -67,10 +68,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             output: DeviceOutput::class,
             provider: OutputItemProvider::class,
         ),
-    //        new Delete(),
+        new Put(
+            uriTemplate: '/devices/{id}/change_active',
+            security: 'is_granted("device_change_active", object)',
+            input: ChangeActiveInput::class,
+            processor: SensorChangeActiveProcessor::class,
+        ),
     ]
-)
-]
+)]
 #[UniqueEntity(['id', 'shortId'])]
 #[Entity(DeviceRepository::class)]
 #[Table('devices')]
@@ -127,6 +132,11 @@ class Device implements DeviceInterface
     public function isActive(): bool
     {
         return $this->active;
+    }
+
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 
     public function getShortId(): string

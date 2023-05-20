@@ -24,6 +24,7 @@ class DeviceVoter extends Voter
 {
     public const LIST = 'list_devices';
     public const VIEW = 'device_get';
+    public const CHANGE_ACTIVE = 'device_change_active';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -33,6 +34,7 @@ class DeviceVoter extends Voter
 
         if (!in_array($attribute, [
             self::VIEW,
+            self::CHANGE_ACTIVE,
         ])) {
             return false;
         }
@@ -49,6 +51,7 @@ class DeviceVoter extends Voter
 
         return match ($attribute) {
             self::LIST => true,
+            self::CHANGE_ACTIVE,
             self::VIEW => $this->canView($user, $subject),
             default => throw new LogicException('Misconfigured voter')
         };

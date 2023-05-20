@@ -31,21 +31,23 @@ const DeviceInfo = styled(Typography)({
     gap: '8px'
 });
 
+const config = {
+    headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
+    }
+};
+
 const DeviceView = () => {
     const { id } = useParams();
     const [device, setDevice] = useState(null);
+    const [isActive, setIsActive] = useState(false);
 
     useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
-            }
-        };
-
         const fetchDeviceData = async () => {
             try {
-                const response = await axios.get(Links(`devices`) + id, config);
+                const response = await axios.get(Links(`devices`, id), config);
                 setDevice(response.data);
+                setIsActive(response.data.active);
             } catch (error) {
                 console.error('Error fetching device data:', error);
             }
@@ -53,6 +55,21 @@ const DeviceView = () => {
 
         fetchDeviceData();
     }, [id]);
+
+    const handleSwitchChange = async () => {
+        try {
+            const updatedIsActive = !isActive; // Toggle the active state
+            setIsActive(updatedIsActive); // Update the state immediately
+
+            const payload = {
+                active: updatedIsActive // Use the updated value
+            };
+
+            await axios.put(Links('deviceChangeActive', id), payload, config);
+        } catch (error) {
+            console.error('Error updating device active state:', error);
+        }
+    };
 
     if (!device) {
         return <div>Loading...</div>; // Placeholder for when data is loading
@@ -83,7 +100,15 @@ const DeviceView = () => {
                 <CardContent>
                     <TitleContainer>
                         <Title>{device.name}</Title>
-                        <Switch label="" color="success" defaultChecked={!!device.active} />
+                        <Switch
+                            label=""
+                            color="success"
+                            checked={isActive}
+                            onChange={() => {
+                                setIsActive((prevIsActive) => !prevIsActive);
+                                handleSwitchChange();
+                            }}
+                        />
                     </TitleContainer>
                     <DeviceInfo>
                         <Typography variant="body1">
