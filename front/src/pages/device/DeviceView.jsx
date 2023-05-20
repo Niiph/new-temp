@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Chip, Grid, Typography } from '@mui/material';
+import { Grid, Switch, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import MainCard from 'components/MainCard';
 import axios from 'axios';
@@ -67,25 +67,8 @@ const DeviceView = () => {
                             <CardContent>
                                 <TitleContainer>
                                     <Title>{sensor.name}</Title>
-                                    <Chip
-                                        color={sensor.active ? 'success' : 'error'}
-                                        icon={<Icons.PoweroffOutlined style={{ fontSize: '1rem', color: 'success' }} />}
-                                        sx={{ ml: 1.25, pl: 1 }}
-                                        size="small"
-                                    />
+                                    <Switch label="" color="success" defaultChecked={!!sensor.active} disabled />
                                 </TitleContainer>
-                                {/*<DeviceInfo>*/}
-                                {/*    <Typography variant="body1">*/}
-                                {/*        <strong>Short ID:</strong>*/}
-                                {/*    </Typography>*/}
-                                {/*    <Typography variant="body1">{sensor.shortId}</Typography>*/}
-                                {/*</DeviceInfo>*/}
-                                {/*<DeviceInfo>*/}
-                                {/*    <Typography variant="body1">*/}
-                                {/*        <strong>Password:</strong>*/}
-                                {/*    </Typography>*/}
-                                {/*    <Typography variant="body1">{sensor.password}</Typography>*/}
-                                {/*</DeviceInfo>*/}
                             </CardContent>
                         </MainCard>
                     </RouterLink>
@@ -100,12 +83,7 @@ const DeviceView = () => {
                 <CardContent>
                     <TitleContainer>
                         <Title>{device.name}</Title>
-                        <Chip
-                            color={device.active ? 'success' : 'error'}
-                            icon={<Icons.PoweroffOutlined style={{ fontSize: '1rem', color: 'success' }} />}
-                            sx={{ ml: 1.25, pl: 1 }}
-                            size="small"
-                        />
+                        <Switch label="" color="success" defaultChecked={!!device.active} />
                     </TitleContainer>
                     <DeviceInfo>
                         <Typography variant="body1">

@@ -18,6 +18,7 @@ const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons'
 
 const Device = Loadable(lazy(() => import('pages/device/DeviceView')));
 const Devices = Loadable(lazy(() => import('pages/device/DeviceListView')));
+const Sensor = Loadable(lazy(() => import('pages/sensor/SensorView')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 const aliases = {
@@ -48,7 +49,7 @@ const MainRoutes = {
         },
         {
             path: aliases.sensor,
-            element: <Device />
+            element: <Sensor />
         },
         {
             path: '/color',
