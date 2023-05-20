@@ -31,11 +31,11 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
     }
 
     public function applyToCollection(
-        QueryBuilder $queryBuilder,
+        QueryBuilder                $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
-        string $resourceClass,
-        Operation $operation = null,
-        array $context = []
+        string                      $resourceClass,
+        Operation                   $operation = null,
+        array                       $context = []
     ): void {
         if (!is_a($resourceClass, DeviceInterface::class, true) || !in_array($operation->getShortName(), $this->shortNames())) {
             return;
@@ -49,7 +49,9 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
         $alias = $queryBuilder->getRootAliases()[0];
         $queryBuilder
             ->andWhere($alias.'.user = :user')
-            ->setParameter('user', $user);
+            ->setParameter('user', $user)
+            ->orderBy($alias.'.active', 'DESC')
+            ->addOrderBy($alias.'.name');
 
         if (self::LIST === $operation->getShortName()) {
             $queryBuilder->andWhere($alias.'.active = true');

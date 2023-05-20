@@ -1,7 +1,9 @@
 const links = {
-    login: '/login_check',
-    register: '/register',
-    devices: '/devices'
+    login: '/login_check/',
+    register: '/register/',
+    devices: '/devices/',
+    devicesFullList: '/devices/full_list/',
+    sensors: '/sensors/'
 };
 
 const aliases = (key: keyof typeof links): string => {

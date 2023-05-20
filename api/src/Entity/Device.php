@@ -15,8 +15,9 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\DTO\DeviceFullOutput;
+use App\DTO\DeviceFullListOutput;
 use App\DTO\DeviceOutput;
+use App\DTO\DeviceShortListOutput;
 use App\Repository\DeviceRepository;
 use App\StateProvider\OutputCollectionProvider;
 use App\StateProvider\OutputItemProvider;
@@ -31,6 +32,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -49,20 +51,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             uriTemplate: 'devices',
             shortName: 'devices_list',
             security: 'is_granted("list_devices", object)',
-            output: DeviceOutput::class,
+            output: DeviceShortListOutput::class,
             provider: OutputCollectionProvider::class,
         ),
         new GetCollection(
             uriTemplate: 'devices/full_list',
             shortName: 'devices_full_list',
             security: 'is_granted("list_devices", object)',
-            output: DeviceFullOutput::class,
+            output: DeviceFullListOutput::class,
             provider: OutputCollectionProvider::class,
         ),
         new Get(
             uriTemplate: 'devices/{id}',
             security: 'is_granted("list_devices", object)',
-            output: DeviceFullOutput::class,
+            output: DeviceOutput::class,
             provider: OutputItemProvider::class,
         ),
     //        new Delete(),
@@ -92,6 +94,7 @@ class Device implements DeviceInterface
     #[Column(type: 'string', nullable: true)]
     private ?string $devicePassword = null;
 
+    #[OrderBy(['active' => 'DESC', 'name' => 'ASC'])]
     #[OneToMany(mappedBy: 'device', targetEntity: SensorInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $sensors;
 
