@@ -115,10 +115,10 @@ const DeviceListView = () => {
                         horizontal: 'left'
                     }}
                 >
-                    <Typography sx={{ p: 2 }}>
+                    <Grid sx={{ p: 2 }}>
                         <TextField required id="name" label="Name" onChange={(e) => setInputValue(e.target.value)} />
                         <Button onClick={handleGeneratePasswordConfirm}>Confirm</Button>
-                    </Typography>
+                    </Grid>
                 </Popover>
             </div>
         </Grid>
