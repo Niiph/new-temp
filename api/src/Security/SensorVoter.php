@@ -31,7 +31,7 @@ class SensorVoter extends Voter
             self::VIEW,
             self::CHANGE_ACTIVE,
         ])) {
-            return true;
+            return false;
         }
 
         return $subject instanceof SensorInterface;

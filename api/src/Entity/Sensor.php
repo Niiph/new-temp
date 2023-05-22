@@ -23,7 +23,7 @@ use App\DTO\ReadingInput;
 use App\DTO\SensorOutput;
 use App\Repository\SensorRepository;
 use App\StateProcessor\ReadingProcessor;
-use App\StateProcessor\SensorChangeActiveProcessor;
+use App\StateProcessor\ChangeActiveProcessor;
 use App\StateProvider\OutputItemProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
@@ -57,7 +57,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             uriTemplate: '/sensors/{id}/change_active',
             security: 'is_granted("sensor_change_active", object)',
             input: ChangeActiveInput::class,
-            processor: SensorChangeActiveProcessor::class,
+            processor: ChangeActiveProcessor::class,
         ),
     ]
 )]
@@ -72,11 +72,11 @@ class Sensor implements SensorInterface
     #[Column(type: 'string')]
     private string $name;
 
-    #[Column(type: 'integer')]
-    private int $pin;
+    #[Column(type: 'integer', nullable: true)]
+    private ?int $pin;
 
-    #[Column(type: 'string')]
-    private string $address;
+    #[Column(type: 'string', nullable: true)]
+    private ?string $address;
 
     #[Column(type: 'integer', nullable: true)]
     private ?int $minimum;
@@ -99,8 +99,8 @@ class Sensor implements SensorInterface
     public function __construct(
         DeviceInterface $device,
         string $name,
-        int $pin,
-        string $address,
+        ?int $pin = null,
+        ?string $address = null,
         ?int $minimum = null,
         ?int $maximum = null,
         bool $active = false,
@@ -141,22 +141,22 @@ class Sensor implements SensorInterface
         $this->name = $name;
     }
 
-    public function getPin(): int
+    public function getPin(): ?int
     {
         return $this->pin;
     }
 
-    public function setPin(int $pin): void
+    public function setPin(?int $pin): void
     {
         $this->pin = $pin;
     }
 
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    public function setAddress(string $address): void
+    public function setAddress(?string $address): void
     {
         $this->address = $address;
     }

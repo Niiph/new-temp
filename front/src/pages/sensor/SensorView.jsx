@@ -39,17 +39,17 @@ const config = {
 
 const SensorView = () => {
     const { id } = useParams();
-    const [device, setDevice] = useState(null);
+    const [sensor, setSensor] = useState(null);
     const [isActive, setIsActive] = useState(false);
 
     useEffect(() => {
         const fetchDeviceData = async () => {
             try {
                 const response = await axios.get(Links(`sensors`, id), config);
-                setDevice(response.data);
+                setSensor(response.data);
                 setIsActive(response.data.active);
             } catch (error) {
-                console.error('Error fetching device data:', error);
+                console.error('Error fetching sensor data:', error);
             }
         };
 
@@ -67,11 +67,11 @@ const SensorView = () => {
 
             await axios.put(Links('sensorChangeActive', id), payload, config);
         } catch (error) {
-            console.error('Error updating device active state:', error);
+            console.error('Error updating sensor active state:', error);
         }
     };
 
-    if (!device) {
+    if (!sensor) {
         return <div>Loading...</div>; // Placeholder for when data is loading
     }
 
@@ -79,7 +79,7 @@ const SensorView = () => {
         <MainCard>
             <CardContent>
                 <TitleContainer>
-                    <Title>{device.name}</Title>
+                    <Title>{sensor.name}</Title>
                     <Switch
                         label=""
                         color="success"
@@ -94,32 +94,40 @@ const SensorView = () => {
                     <Typography variant="body1">
                         <strong>Pin:</strong>
                     </Typography>
-                    <Typography variant="body1" color={device.pin ? 'textPrimary' : 'textSecondary'}>
-                        {device.pin ?? 'empty'}
+                    <Typography variant="body1" color={sensor.pin ? 'textPrimary' : 'textSecondary'}>
+                        {sensor.pin ?? 'empty'}
                     </Typography>
                 </DeviceInfo>
                 <DeviceInfo>
                     <Typography variant="body1">
                         <strong>Address:</strong>
                     </Typography>
-                    <Typography variant="body1" color={device.address ? 'textPrimary' : 'textSecondary'}>
-                        {device.address ?? 'empty'}
+                    <Typography variant="body1" color={sensor.address ? 'textPrimary' : 'textSecondary'}>
+                        {sensor.address ?? 'empty'}
                     </Typography>
                 </DeviceInfo>
                 <DeviceInfo>
                     <Typography variant="body1">
                         <strong>Minimum:</strong>
                     </Typography>
-                    <Typography variant="body1" color={device.minimum ? 'textPrimary' : 'textSecondary'}>
-                        {device.minimum ?? 'empty'}
+                    <Typography variant="body1" color={sensor.minimum ? 'textPrimary' : 'textSecondary'}>
+                        {sensor.minimum ?? 'empty'}
                     </Typography>
                 </DeviceInfo>
                 <DeviceInfo>
                     <Typography variant="body1">
                         <strong>Maximum:</strong>
                     </Typography>
-                    <Typography variant="body1" color={device.maximum ? 'textPrimary' : 'textSecondary'}>
-                        {device.maximum ?? 'empty'}
+                    <Typography variant="body1" color={sensor.maximum ? 'textPrimary' : 'textSecondary'}>
+                        {sensor.maximum ?? 'empty'}
+                    </Typography>
+                </DeviceInfo>
+                <DeviceInfo>
+                    <Typography variant="body1">
+                        <strong>Device:</strong>
+                    </Typography>
+                    <Typography variant="body1" color={'textPrimary'}>
+                        {sensor.device.name}
                     </Typography>
                 </DeviceInfo>
             </CardContent>

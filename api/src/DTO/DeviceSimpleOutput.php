@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the *TBD* package.
  *
  * (c) Piotr Opioła <piotr@opiola.eu>
@@ -12,35 +12,24 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
+use App\Entity\DeviceInterface;
 use App\Entity\SensorInterface;
 use Ramsey\Uuid\UuidInterface;
 
-class SensorOutput implements OutputInterface
+class DeviceSimpleOutput implements OutputInterface
 {
     public function __construct(
         public UuidInterface $id,
-        public string        $name,
-        public bool          $active,
-        public ?int          $pin,
-        public ?string       $address,
-        public ?int          $minimum,
-        public ?int          $maximum,
-        public DeviceSimpleOutput $device,
+        public string $name,
     ) {
     }
 
-    /** @param SensorInterface $data */
+    /** @param DeviceInterface $data */
     public static function createOutput(mixed $data): self
     {
         return new self(
             $data->getId(),
             $data->getName(),
-            $data->isActive(),
-            $data->getPin(),
-            $data->getAddress(),
-            $data->getMinimum(),
-            $data->getMaximum(),
-            DeviceSimpleOutput::createOutput($data->getDevice()),
         );
     }
 }

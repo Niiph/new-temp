@@ -20,7 +20,7 @@
         },
         "ecmaVersion": 12
     },
-    "plugins": ["prettier", "react", "react-hooks"],
+    "plugins": ["prettier", "react", "react-hooks", "typescript"],
     "rules": {
         "react/jsx-filename-extension": 0,
         "no-param-reassign": 0,
@@ -34,6 +34,7 @@
         "jsx-a11y/anchor-is-valid": 0,
         "prefer-destructuring": 0,
         "no-shadow": 0,
+        "jsx-a11y/no-autofocus": 0,
         "no-unused-vars": [
             1,
             {
