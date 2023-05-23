@@ -16,21 +16,19 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ChangeActiveInput;
 use App\DTO\DeviceOutput;
-use App\DTO\SensorOutput;
 use App\Entity\ActiveInterface;
 use App\Entity\DeviceInterface;
-use App\Entity\SensorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 
-readonly class SensorChangeNameProcessor implements ProcessorInterface
+readonly class DeviceChangeNameProcessor implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): SensorOutput
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): DeviceOutput
     {
         /** @var DeviceInterface $object */
         $object = $context['previous_data'];
@@ -40,10 +38,10 @@ readonly class SensorChangeNameProcessor implements ProcessorInterface
 
         $entity = $this->entityManager->getReference(get_class($object), $object->getId());
 
-        /** @var SensorInterface $entity */
+        /** @var DeviceInterface $entity */
         $entity->setName($data->name);
         $this->entityManager->flush();
 
-        return SensorOutput::createOutput($entity);
+        return DeviceOutput::createOutput($entity);
     }
 }

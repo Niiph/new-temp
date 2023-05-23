@@ -14,12 +14,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 
-interface DeviceInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface
+interface DeviceInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface, OwnerInterface, NameInterface
 {
-    public function getName(): string;
-
-    public function setName(string $name): void;
-
     public function getShortId(): string;
 
     public function getUser(): UserInterface;

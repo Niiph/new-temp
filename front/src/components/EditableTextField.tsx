@@ -18,7 +18,7 @@ export interface EditableTextFieldProps {
 }
 
 const EditableTextField: React.FC<EditableTextFieldProps> = ({ value = null, nullable = false, maxLength = 30, url, property }) => {
-    const [editedField, setEditedField] = useState(value || '');
+    const [editedField, setEditedField] = useState(value || null);
     const [fieldError, setFieldError] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -29,15 +29,15 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({ value = null, nul
 
     const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        setEditedField(value);
+        setEditedField(value === '' ? null : value);
         setFieldError(false); // Reset the error when the value changes
     };
 
     const handleFieldBlur = () => {
-        if (!nullable && editedField.trim() === '') {
+        if (!nullable && (!editedField || editedField.trim() === '')) {
             setFieldError(true);
             setErrorMessage('Field must not be empty');
-        } else if (editedField.length > maxLength) {
+        } else if (editedField && editedField.length > maxLength) {
             setFieldError(true);
             setErrorMessage('Field should have up to ' + { maxLength } + 'characters');
         } else {
@@ -59,7 +59,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({ value = null, nul
                     helperText={fieldError && errorMessage} // Display error message
                 />
             ) : (
-                <Container onClick={handleFieldClick}>{editedField}</Container>
+                <Container onClick={handleFieldClick}>{editedField ?? '-----'}</Container>
             )}
         </Grid>
     );

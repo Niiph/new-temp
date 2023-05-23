@@ -28,7 +28,7 @@ use App\DTO\DeviceSimpleOutput;
 use App\Repository\DeviceRepository;
 use App\StateProcessor\DeviceCreateProcessor;
 use App\StateProcessor\ChangeActiveProcessor;
-use App\StateProcessor\SensorChangeNameProcessor;
+use App\StateProcessor\DeviceChangeNameProcessor;
 use App\StateProcessor\SensorChangePasswordProcessor;
 use App\StateProvider\OutputCollectionProvider;
 use App\StateProvider\OutputItemProvider;
@@ -100,7 +100,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             security: 'is_granted("device_change_name", object)',
             input: ChangeNameInput::class,
             output: DeviceOutput::class,
-            processor: SensorChangeNameProcessor::class,
+            processor: DeviceChangeNameProcessor::class,
         ),
         new Post(
             security: 'is_granted("device_create")',
@@ -251,5 +251,10 @@ class Device implements DeviceInterface
         }
 
         return $deviceToken->getExpirationTime()->gte(CarbonImmutable::now());
+    }
+
+    public function isOwner(UserInterface $user): bool
+    {
+        return $this->getUser() === $user;
     }
 }

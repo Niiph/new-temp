@@ -16,20 +16,26 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ChangeActiveInput;
 use App\DTO\DeviceOutput;
+use App\DTO\SensorChangeDeviceInput;
+use App\DTO\SensorChangePinInput;
 use App\DTO\SensorOutput;
 use App\Entity\ActiveInterface;
 use App\Entity\DeviceInterface;
 use App\Entity\SensorInterface;
+use App\Repository\DeviceRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
+use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
 
-readonly class SensorChangeNameProcessor implements ProcessorInterface
+readonly class SensorChangeDeviceProcessor implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
+        private DeviceRepositoryInterface $deviceRepository,
     ) {
     }
 
+    /** @param SensorChangeDeviceInput $data */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): SensorOutput
     {
         /** @var DeviceInterface $object */
@@ -39,9 +45,10 @@ readonly class SensorChangeNameProcessor implements ProcessorInterface
         }
 
         $entity = $this->entityManager->getReference(get_class($object), $object->getId());
+        $device = $this->deviceRepository->find($data->deviceId);
 
         /** @var SensorInterface $entity */
-        $entity->setName($data->name);
+        $entity->setDevice($device);
         $this->entityManager->flush();
 
         return SensorOutput::createOutput($entity);

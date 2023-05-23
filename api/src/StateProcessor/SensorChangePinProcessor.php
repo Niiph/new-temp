@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ChangeActiveInput;
 use App\DTO\DeviceOutput;
+use App\DTO\SensorChangePinInput;
 use App\DTO\SensorOutput;
 use App\Entity\ActiveInterface;
 use App\Entity\DeviceInterface;
@@ -23,13 +24,14 @@ use App\Entity\SensorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 
-readonly class SensorChangeNameProcessor implements ProcessorInterface
+readonly class SensorChangePinProcessor implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
     ) {
     }
 
+    /** @param SensorChangePinInput $data */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): SensorOutput
     {
         /** @var DeviceInterface $object */
@@ -41,7 +43,7 @@ readonly class SensorChangeNameProcessor implements ProcessorInterface
         $entity = $this->entityManager->getReference(get_class($object), $object->getId());
 
         /** @var SensorInterface $entity */
-        $entity->setName($data->name);
+        $entity->setPin(intval($data->pin));
         $this->entityManager->flush();
 
         return SensorOutput::createOutput($entity);

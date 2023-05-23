@@ -14,15 +14,11 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 
-interface SensorInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface
+interface SensorInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface, OwnerInterface, NameInterface
 {
     public function getDevice(): DeviceInterface;
 
     public function setDevice(DeviceInterface $device): void;
-
-    public function getName(): string;
-
-    public function setName(string $name): void;
 
     public function getPin(): ?int;
 
