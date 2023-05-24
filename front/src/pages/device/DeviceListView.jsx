@@ -53,10 +53,7 @@ const DeviceListView = () => {
         fetchDevicesData();
     }, [id]);
 
-    // const handleAddNewDevice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { value } = event.target;
-
-    const handleGeneratePasswordConfirm = async () => {
+    const handleAddDeviceConfirm = async () => {
         try {
             await Post(Links('devices'), { name: inputValue });
             popupState.close();
@@ -117,7 +114,7 @@ const DeviceListView = () => {
                 >
                     <Grid sx={{ p: 2 }}>
                         <TextField required id="name" label="Name" onChange={(e) => setInputValue(e.target.value)} />
-                        <Button onClick={handleGeneratePasswordConfirm}>Confirm</Button>
+                        <Button onClick={handleAddDeviceConfirm}>Confirm</Button>
                     </Grid>
                 </Popover>
             </div>

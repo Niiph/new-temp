@@ -13,17 +13,29 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\DTO\ChangeActiveInput;
+use App\DTO\ChangeNameInput;
 use App\DTO\ReadingInput;
+use App\DTO\SensorChangeAddressInput;
+use App\DTO\SensorChangeDeviceInput;
+use App\DTO\SensorChangeMaximumInput;
+use App\DTO\SensorChangeMinimumInput;
+use App\DTO\SensorChangePinInput;
+use App\DTO\SensorCreateInput;
 use App\DTO\SensorOutput;
 use App\Repository\SensorRepository;
-use App\StateProcessor\ReadingProcessor;
 use App\StateProcessor\ChangeActiveProcessor;
+use App\StateProcessor\ReadingProcessor;
+use App\StateProcessor\SensorChangeAddressProcessor;
+use App\StateProcessor\SensorChangeDeviceProcessor;
+use App\StateProcessor\SensorChangeMaximumProcessor;
+use App\StateProcessor\SensorChangeMinimumProcessor;
+use App\StateProcessor\SensorChangeNameProcessor;
+use App\StateProcessor\SensorChangePinProcessor;
+use App\StateProcessor\SensorCreateProcessor;
 use App\StateProvider\OutputItemProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
@@ -50,16 +62,58 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ),
         new Get(
             security: 'is_granted("sensor_get", object)',
-            output: SensorOutput::class,
             provider: OutputItemProvider::class,
         ),
         new Put(
             uriTemplate: '/sensors/{id}/change_active',
             security: 'is_granted("sensor_change_active", object)',
             input: ChangeActiveInput::class,
+            output: Sensor::class,
             processor: ChangeActiveProcessor::class,
         ),
-    ]
+        new Put(
+            uriTemplate: '/sensors/{id}/change_name',
+            security: 'is_granted("sensor_change_name", object)',
+            input: ChangeNameInput::class,
+            processor: SensorChangeNameProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/sensors/{id}/change_minimum',
+            security: 'is_granted("sensor_change_minimum", object)',
+            input: SensorChangeMinimumInput::class,
+            processor: SensorChangeMinimumProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/sensors/{id}/change_maximum',
+            security: 'is_granted("sensor_change_maximum", object)',
+            input: SensorChangeMaximumInput::class,
+            processor: SensorChangeMaximumProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/sensors/{id}/change_pin',
+            security: 'is_granted("sensor_change_pin", object)',
+            input: SensorChangePinInput::class,
+            processor: SensorChangePinProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/sensors/{id}/change_device',
+            security: 'is_granted("sensor_change_device", object)',
+            input: SensorChangeDeviceInput::class,
+            processor: SensorChangeDeviceProcessor::class,
+        ),
+        new Put(
+            uriTemplate: '/sensors/{id}/change_address',
+            security: 'is_granted("sensor_change_address", object)',
+            input: SensorChangeAddressInput::class,
+            processor: SensorChangeAddressProcessor::class,
+        ),
+        new Post(
+            security: 'is_granted("sensor_create")',
+            input: SensorCreateInput::class,
+            processor: SensorCreateProcessor::class,
+        ),
+    ],
+    output: SensorOutput::class,
 )]
 #[UniqueEntity('id')]
 #[Entity(repositoryClass: SensorRepository::class)]
@@ -228,5 +282,10 @@ class Sensor implements SensorInterface
         if ($this->sensorSettings->contains($sensorSettings)) {
             $this->sensorSettings->removeElement($sensorSettings);
         }
+    }
+
+    public function isOwner(UserInterface $user): bool
+    {
+        return $this->getDevice()->getUser() === $user;
     }
 }

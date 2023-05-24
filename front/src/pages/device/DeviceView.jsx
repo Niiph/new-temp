@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Grid, Switch, Typography, TextField, Popover, Button } from '@mui/material';
+import { Grid, Switch, Typography, TextField, Popover, Button, Fab } from '@mui/material';
 import { styled } from '@mui/system';
 import MainCard from 'components/MainCard';
-import { Get, Put } from 'components/ApiRequest';
+import { Get, Post, Put } from 'components/ApiRequest';
 import Links from 'routes/ApiRoutes';
 import * as Icons from '@ant-design/icons';
 import EditableTextField from 'components/EditableTextField';
 import { usePopupState, bindTrigger, bindPopover } from 'material-ui-popup-state/hooks';
+import AddIcon from '@mui/icons-material/Add';
 
 const CardContent = styled('div')({
     display: 'flex',
@@ -39,20 +40,22 @@ const DeviceView = () => {
     const [device, setDevice] = useState(null);
     const [isActive, setIsActive] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
-    const popupState = usePopupState({ variant: 'popover', popupId: 'password-popover' });
+    const resetPopupState = usePopupState({ variant: 'popover', popupId: 'password-popover' });
+    const addPopupState = usePopupState({ variant: 'popover', popupId: 'add-popover' });
+    const [inputValue, setInputValue] = useState('');
+
+    const fetchDeviceData = async () => {
+        try {
+            const response = await Get(Links(`devices`, id));
+            setDevice(response);
+            setIsActive(response.active);
+            setEditedTitle(response.name);
+        } catch (error) {
+            console.error('Error fetching device data:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchDeviceData = async () => {
-            try {
-                const response = await Get(Links(`devices`, id));
-                setDevice(response);
-                setIsActive(response.active);
-                setEditedTitle(response.name);
-            } catch (error) {
-                console.error('Error fetching device data:', error);
-            }
-        };
-
         fetchDeviceData();
     }, [id]);
 
@@ -74,9 +77,19 @@ const DeviceView = () => {
     const handleGeneratePasswordConfirm = async () => {
         try {
             setDevice(await Put(Links('deviceChangePassword', id), {}));
-            popupState.close();
+            resetPopupState.close();
         } catch (error) {
             console.error('Error generating new password:', error);
+        }
+    };
+
+    const handleAddSensorConfirm = async () => {
+        try {
+            await Post(Links('sensors'), { name: inputValue, deviceId: device.id });
+            addPopupState.close();
+            await fetchDeviceData();
+        } catch (error) {
+            console.error('Error creating new device:', error);
         }
     };
 
@@ -133,11 +146,11 @@ const DeviceView = () => {
                         </Typography>
                         <Typography variant="body1">{device.password}</Typography>
                         <div>
-                            <Button {...bindTrigger(popupState)}>
+                            <Button {...bindTrigger(resetPopupState)}>
                                 <Icons.RedoOutlined style={{ color: 'red' }} />
                             </Button>
                             <Popover
-                                {...bindPopover(popupState)}
+                                {...bindPopover(resetPopupState)}
                                 anchorOrigin={{
                                     vertical: 'center',
                                     horizontal: 'right'
@@ -161,6 +174,27 @@ const DeviceView = () => {
                 <strong>Sensors:</strong>
             </Typography>
             {sensors}
+            <div>
+                <Fab Fab color="primary" aria-label="add" sx={{ mt: 2 }} {...bindTrigger(addPopupState)}>
+                    <AddIcon />
+                </Fab>
+                <Popover
+                    {...bindPopover(addPopupState)}
+                    anchorOrigin={{
+                        vertical: 'center',
+                        horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                        vertical: 'center',
+                        horizontal: 'left'
+                    }}
+                >
+                    <Grid sx={{ p: 2 }}>
+                        <TextField required id="name" label="Name" onChange={(e) => setInputValue(e.target.value)} />
+                        <Button onClick={handleAddSensorConfirm}>Confirm</Button>
+                    </Grid>
+                </Popover>
+            </div>
         </Grid>
     );
 };
