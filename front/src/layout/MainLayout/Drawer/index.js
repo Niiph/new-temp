@@ -9,6 +9,7 @@ import { Box, Drawer, useMediaQuery } from '@mui/material';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled';
 import { drawerWidth } from 'config';
+import drawerHeader from './DrawerHeader';
 
 // ==============================|| MAIN LAYOUT - DRAWER ||============================== //
 

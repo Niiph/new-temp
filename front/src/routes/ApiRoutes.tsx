@@ -16,7 +16,8 @@ const links = {
     sensorChangeMaximum: (id?: string) => links.sensors(id) + '/change_maximum',
     sensorChangeAddress: (id?: string) => links.sensors(id) + '/change_address',
     sensorChangeDevice: (id?: string) => links.sensors(id) + '/change_device',
-    sensorChangePin: (id?: string) => links.sensors(id) + '/change_pin'
+    sensorChangePin: (id?: string) => links.sensors(id) + '/change_pin',
+    sensorReadings: (id?: string) => links.sensors(id) + '/readings'
 };
 
 const aliases = (key: keyof typeof links, id?: string): string => {

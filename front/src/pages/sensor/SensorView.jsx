@@ -5,7 +5,8 @@ import { styled } from '@mui/system';
 import MainCard from 'components/MainCard';
 import Links from 'routes/ApiRoutes';
 import EditableTextField from 'components/EditableTextField';
-import { Get, Put } from '../../components/ApiRequest';
+import { Get, Put } from 'components/ApiRequest';
+import Chart from 'components/Chart';
 
 const CardContent = styled('div')({
     display: 'flex',
@@ -44,8 +45,8 @@ const SensorView = () => {
     const [editedTitle, setEditedTitle] = useState('');
     const [editedPin, setEditedPin] = useState(null);
     const [editedAddress, setEditedAddress] = useState('');
-    const [editedMinimum, setEditedMinimum] = useState(null);
-    const [editedMaximum, setEditedMaximum] = useState(null);
+    // const [editedMinimum, setEditedMinimum] = useState(null);
+    // const [editedMaximum, setEditedMaximum] = useState(null);
     const [editedDevice, setEditedDevice] = useState('');
     const [isEditingDevice, setIsEditingDevice] = useState(false);
     const [devices, setDevices] = useState(null);
@@ -60,8 +61,8 @@ const SensorView = () => {
                 setEditedTitle(response.name);
                 setEditedPin(response.pin);
                 setEditedAddress(response.address);
-                setEditedMinimum(response.minimum);
-                setEditedMaximum(response.maximum);
+                // setEditedMinimum(response.minimum);
+                // setEditedMaximum(response.maximum);
                 setEditedDevice(response.device);
 
                 const devicesResponse = await Get(Links('devicesSimpleList'));
@@ -149,32 +150,32 @@ const SensorView = () => {
                         />
                     </Typography>
                 </DeviceInfo>
-                <DeviceInfo>
-                    <Typography variant="body1">
-                        <strong>Minimum:</strong>
-                    </Typography>
-                    <Typography variant="body1" color={sensor.minimum ? 'textPrimary' : 'textSecondary'}>
-                        <EditableTextField
-                            value={editedMinimum}
-                            property="minimum"
-                            url={Links('sensorChangeMinimum', id)}
-                            nullable={true}
-                        />
-                    </Typography>
-                </DeviceInfo>
-                <DeviceInfo>
-                    <Typography variant="body1">
-                        <strong>Maximum:</strong>
-                    </Typography>
-                    <Typography variant="body1" color={sensor.maximum ? 'textPrimary' : 'textSecondary'}>
-                        <EditableTextField
-                            value={editedMaximum}
-                            property="maximum"
-                            url={Links('sensorChangeMaximum', id)}
-                            nullable={true}
-                        />
-                    </Typography>
-                </DeviceInfo>
+                {/*<DeviceInfo>*/}
+                {/*    <Typography variant="body1">*/}
+                {/*        <strong>Minimum:</strong>*/}
+                {/*    </Typography>*/}
+                {/*    <Typography variant="body1" color={sensor.minimum ? 'textPrimary' : 'textSecondary'}>*/}
+                {/*        <EditableTextField*/}
+                {/*            value={editedMinimum}*/}
+                {/*            property="minimum"*/}
+                {/*            url={Links('sensorChangeMinimum', id)}*/}
+                {/*            nullable={true}*/}
+                {/*        />*/}
+                {/*    </Typography>*/}
+                {/*</DeviceInfo>*/}
+                {/*<DeviceInfo>*/}
+                {/*    <Typography variant="body1">*/}
+                {/*        <strong>Maximum:</strong>*/}
+                {/*    </Typography>*/}
+                {/*    <Typography variant="body1" color={sensor.maximum ? 'textPrimary' : 'textSecondary'}>*/}
+                {/*        <EditableTextField*/}
+                {/*            value={editedMaximum}*/}
+                {/*            property="maximum"*/}
+                {/*            url={Links('sensorChangeMaximum', id)}*/}
+                {/*            nullable={true}*/}
+                {/*        />*/}
+                {/*    </Typography>*/}
+                {/*</DeviceInfo>*/}
                 <DeviceInfo>
                     <Typography variant="body1">
                         <strong>Device:</strong>
@@ -190,9 +191,6 @@ const SensorView = () => {
                                 onChange={(event, newValue) => {
                                     setEditedDevice(newValue);
                                 }}
-                                // onInputChange={(event, newInputValue) => {
-                                //     setEditedDevice(newInputValue);
-                                // }}
                                 renderInput={(params) => <TextField {...params} label="Device" />}
                             />
                         ) : (
@@ -203,6 +201,7 @@ const SensorView = () => {
                     </Grid>
                 </DeviceInfo>
             </CardContent>
+            <Chart />
         </MainCard>
     );
 };
