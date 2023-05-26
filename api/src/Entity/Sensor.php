@@ -26,6 +26,7 @@ use App\DTO\SensorChangeMinimumInput;
 use App\DTO\SensorChangePinInput;
 use App\DTO\SensorCreateInput;
 use App\DTO\SensorOutput;
+use App\DTO\SensorReadingsOutput;
 use App\Repository\SensorRepository;
 use App\StateProcessor\ChangeActiveProcessor;
 use App\StateProcessor\ReadingProcessor;
@@ -37,15 +38,18 @@ use App\StateProcessor\SensorChangeNameProcessor;
 use App\StateProcessor\SensorChangePinProcessor;
 use App\StateProcessor\SensorCreateProcessor;
 use App\StateProvider\OutputItemProvider;
+use App\StateProvider\SensorReadingsProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
 use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -112,6 +116,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             input: SensorCreateInput::class,
             processor: SensorCreateProcessor::class,
         ),
+        new Get(
+            uriTemplate: 'sensors/{id}/readings',
+            output: SensorReadingsOutput::class,
+            provider: SensorReadingsProvider::class,
+        ),
     ],
     output: SensorOutput::class,
 )]
@@ -144,8 +153,9 @@ class Sensor implements SensorInterface
     #[ManyToOne(targetEntity: DeviceInterface::class, cascade: ['persist'], inversedBy: 'sensors')]
     private DeviceInterface $device;
 
+    #[OrderBy(['createdAt' => 'ASC'])]
     #[OneToMany(mappedBy: 'sensor', targetEntity: ReadingInterface::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    private Collection $readings;
+    private Collection&Selectable $readings;
 
     #[OneToMany(mappedBy: 'sensor', targetEntity: SensorSettingsInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $sensorSettings;
@@ -245,7 +255,7 @@ class Sensor implements SensorInterface
         $this->active = $active;
     }
 
-    public function getReadings(): Collection
+    public function getReadings(): Collection&Selectable
     {
         return $this->readings;
     }

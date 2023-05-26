@@ -39,13 +39,14 @@ readonly class SecurityEventListener
         $data = $attributes->get('data');
         $operation = $attributes->get('_api_operation');
         $apiNormalizationContext = $attributes->get('_api_normalization_context');
-        if (!$data instanceof OutputInterface || !$operation instanceof Get || !$apiNormalizationContext) {
+        if (!$data instanceof OutputInterface || !$operation instanceof Get || !$apiNormalizationContext || !$operation->getSecurity()) {
             return;
         }
 
         $uriVariables = $apiNormalizationContext['uri_variables'] ?? null;
 
         $entity = $this->itemProvider->provide($operation->withOutput(), $uriVariables);
+
 
         if (!$this->resourceAccessChecker->isGranted($apiNormalizationContext['resource_class'], $operation->getSecurity(), ['object' => $entity])) {
             throw new AccessDeniedException('Access Denied.');

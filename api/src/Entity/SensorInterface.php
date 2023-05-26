@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Selectable;
 
 interface SensorInterface extends IdentifiableInterface, CreatedAtInterface, ActiveInterface, OwnerInterface, NameInterface
 {
@@ -36,7 +38,7 @@ interface SensorInterface extends IdentifiableInterface, CreatedAtInterface, Act
 
     public function setMaximum(?int $maximum): void;
 
-    public function getReadings(): Collection;
+    public function getReadings(): Collection&Selectable;
 
     public function addReading(ReadingInterface $reading): void;
 
