@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Entity;
 
-use App\Entity\DeviceInterface;
-use App\Entity\SensorInterface;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken as BaseRefreshToken;
 
-interface DeviceResolverInterface
+#[Entity]
+#[Table('refresh_tokens')]
+class RefreshToken extends BaseRefreshToken
 {
-    public function resolveDevice(): ?DeviceInterface;
-
-    public function resolveSensor(array $uriVariables): ?SensorInterface;
 }

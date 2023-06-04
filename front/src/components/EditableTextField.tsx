@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC, ChangeEvent } from 'react';
 import { TextField, Typography, Grid } from '@mui/material';
 import { styled, SystemProps } from '@mui/system';
 import { Put } from 'components/ApiRequest';
@@ -17,8 +17,8 @@ export interface EditableTextFieldProps {
     property: string;
 }
 
-const EditableTextField: React.FC<EditableTextFieldProps> = ({ value = null, nullable = false, maxLength = 30, url, property }) => {
-    const [editedField, setEditedField] = useState(value || null);
+const EditableTextField: FC<EditableTextFieldProps> = ({ value = null, nullable = false, maxLength = 30, url, property }) => {
+    const [editedField, setEditedField] = useState(value ?? '');
     const [fieldError, setFieldError] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -27,9 +27,9 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({ value = null, nul
         setIsEditing(true);
     };
 
-    const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        setEditedField(value === '' ? null : value);
+        setEditedField(value);
         setFieldError(false); // Reset the error when the value changes
     };
 
@@ -59,7 +59,7 @@ const EditableTextField: React.FC<EditableTextFieldProps> = ({ value = null, nul
                     helperText={fieldError && errorMessage} // Display error message
                 />
             ) : (
-                <Container onClick={handleFieldClick}>{editedField ?? '-----'}</Container>
+                <Container onClick={handleFieldClick}>{editedField === '' ? '-----' : editedField}</Container>
             )}
         </Grid>
     );

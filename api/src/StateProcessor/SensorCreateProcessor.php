@@ -14,16 +14,12 @@ namespace App\StateProcessor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\DTO\DeviceCreateInput;
 use App\DTO\SensorCreateInput;
-use App\Entity\Device;
+use App\DTO\SensorOutput;
 use App\Entity\DeviceInterface;
 use App\Entity\Sensor;
-use App\Entity\SensorInterface;
-use App\Entity\UserInterface;
 use App\Repository\DeviceRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 
 readonly class SensorCreateProcessor implements ProcessorInterface
 {
@@ -34,7 +30,7 @@ readonly class SensorCreateProcessor implements ProcessorInterface
     }
 
     /** @param SensorCreateInput $data */
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): SensorInterface
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): SensorOutput
     {
         /** @var DeviceInterface $device */
         $device = $this->deviceRepository->find($data->deviceId);
@@ -47,6 +43,6 @@ readonly class SensorCreateProcessor implements ProcessorInterface
         $this->entityManager->persist($sensor);
         $this->entityManager->flush();
 
-        return $sensor;
+        return SensorOutput::createOutput($sensor);
     }
 }

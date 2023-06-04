@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 // material-ui
@@ -30,17 +30,18 @@ import AnimateButton from 'components/@extended/AnimateButton';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { aliases as RouteAliases } from 'routes/MainRoutes';
 import Links from 'routes/ApiRoutes';
+import Cookies from 'js-cookie';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
-    const [checked, setChecked] = React.useState(false);
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [errorMessage, setErrorMessage] = React.useState('');
+    const [checked, setChecked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     let navigate = useNavigate();
 
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -71,9 +72,12 @@ const AuthLogin = () => {
                         if (response.status === 200) {
                             setStatus({ success: true });
                             const { token } = response.data;
-                            localStorage.setItem('jwt_token', token);
+                            // localStorage.setItem('jwt_token', token);
+                            Cookies.set('token', token, { secure: true, sameSite: 'strict' });
                             localStorage.setItem('username', values.email);
+                            localStorage.setItem('refresh_token_expiration', response.data.refresh_token_expiration);
                             navigate(RouteAliases.home);
+                            window.location.reload();
                         }
                     } catch (error) {
                         console.log(error);

@@ -28,4 +28,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-// Authorization: 'Bearer ' + localStorage.getItem('jwt_token')

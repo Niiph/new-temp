@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { Grid, Switch, Typography, TextField, Popover, Button, Fab } from '@mui/material';
 import { styled } from '@mui/system';
@@ -29,7 +29,7 @@ const Title = styled('div')(({ isEditing }) => ({
     cursor: isEditing ? 'default' : 'pointer'
 }));
 
-const DeviceInfo = styled(Typography)({
+const DeviceInfo = styled('div')({
     display: 'flex',
     alignItems: 'center',
     gap: '8px'
@@ -175,7 +175,7 @@ const DeviceView = () => {
             </Typography>
             {sensors}
             <div>
-                <Fab Fab color="primary" aria-label="add" sx={{ mt: 2 }} {...bindTrigger(addPopupState)}>
+                <Fab color="primary" aria-label="add" sx={{ mt: 2 }} {...bindTrigger(addPopupState)}>
                     <AddIcon />
                 </Fab>
                 <Popover

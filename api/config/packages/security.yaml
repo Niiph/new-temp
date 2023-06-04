@@ -17,7 +17,7 @@ security:
             pattern: ^/api/login
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: api_login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         main:
@@ -25,12 +25,17 @@ security:
             provider: user_provider
             entry_point: jwt
             json_login:
-                check_path: '%app.security.api_route%/login_check'
+                check_path: api_login_check
                 username_path: username
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~
+            refresh_jwt:
+                check_path: api_refresh_token
+            logout:
+                path: api_token_invalidate
+                target: blank
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -43,10 +48,12 @@ security:
     access_control:
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { route: "register_user", methods: [ POST ], allow_if: "not is_granted('ROLE_USER')" }
+        - { route: "api_login_check", roles: PUBLIC_ACCESS }
+        - { route: "api_refresh_token", roles: PUBLIC_ACCESS }
         - { route: "time", methods: [ POST ], allow_if: "not is_granted('ROLE_USER')" }
         - { route: "add_reading", methods: [ PUT ], allow_if: "not is_granted('ROLE_USER')" }
         - { route: "list_sensors", methods: [ GET ], allow_if: "not is_granted('ROLE_USER')" }
-#        - { path: "%app.security.api_regex%", roles: IS_AUTHENTICATED_FULLY }
+        - { path: "%app.security.api_regex%", roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

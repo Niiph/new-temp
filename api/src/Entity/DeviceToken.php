@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Action\PlaceholderAction;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -42,10 +43,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'time',
             processor: DeviceTokenProcessor::class,
         ),
-    //        new Get(),
-    //        new Post(),
-    //        new GetCollection(),
-    //        new Delete(),
+        new GetCollection(
+            uriTemplate: 'blank',
+            name: 'blank',
+            output: false,
+        ),
     ]
 )]
 #[UniqueEntity('id')]

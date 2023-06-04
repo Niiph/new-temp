@@ -25,6 +25,7 @@ use App\DTO\SensorChangeMaximumInput;
 use App\DTO\SensorChangeMinimumInput;
 use App\DTO\SensorChangePinInput;
 use App\DTO\SensorCreateInput;
+use App\DTO\SensorExternalOutput;
 use App\DTO\SensorOutput;
 use App\DTO\SensorReadingsOutput;
 use App\Repository\SensorRepository;
@@ -38,6 +39,7 @@ use App\StateProcessor\SensorChangeNameProcessor;
 use App\StateProcessor\SensorChangePinProcessor;
 use App\StateProcessor\SensorCreateProcessor;
 use App\StateProvider\OutputItemProvider;
+use App\StateProvider\SensorExternalProvider;
 use App\StateProvider\SensorReadingsProvider;
 use App\Util\CreatedAtTrait;
 use App\Util\IdentifiableTrait;
@@ -57,6 +59,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
+        new Get(
+            output: SensorExternalOutput::class,
+            provider: SensorExternalProvider::class,
+        ),
         new Put(
             uriTemplate: 'sensors/{id}/add_reading',
             status: 204,
@@ -65,6 +71,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             processor: ReadingProcessor::class,
         ),
         new Get(
+            uriTemplate: 'sensors/{id}/details',
             security: 'is_granted("sensor_get", object)',
             provider: OutputItemProvider::class,
         ),

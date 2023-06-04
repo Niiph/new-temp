@@ -32,50 +32,32 @@ const aliases = {
 };
 export { aliases };
 
-const MainRoutes = {
-    element: <MainLayout />,
-    children: [
-        {
-            path: aliases.home,
-            element: <DashboardDefault />
-        },
-        {
-            path: aliases.devices,
-            element: <Devices />
-        },
-        {
-            path: aliases.device,
-            element: <Device />
-        },
-        {
-            path: aliases.sensor,
-            element: <Sensor />
-        },
-        {
-            path: '/color',
-            element: <Color />
-        },
-        {
-            path: '/sample-page',
-            element: <SamplePage />
-        },
-        {
-            path: '/shadow',
-            element: <Shadow />
-        },
-        {
-            path: '/typography',
-            element: <Typography />
-        },
-        {
-            path: '/icons/ant',
-            element: <AntIcons />
-        },
-        {
-            path: aliases.profile,
-            element: <SamplePage />
-        }
-    ]
+const MainRoutes = () => {
+    return {
+        element: <MainLayout />,
+        children: [
+            {
+                path: aliases.home,
+                element: <DashboardDefault />
+            },
+            {
+                path: aliases.devices,
+                element: <Devices />
+            },
+            {
+                path: aliases.device,
+                element: <Device />
+            },
+            {
+                path: aliases.sensor,
+                element: <Sensor />
+            },
+            {
+                path: aliases.profile,
+                element: <SamplePage />
+            }
+        ]
+    };
 };
 
 export default MainRoutes;
