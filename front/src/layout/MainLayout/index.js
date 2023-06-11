@@ -11,6 +11,7 @@ import Drawer from './Drawer';
 import Header from './Header';
 import navigation from 'menu-items';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
+import TokenCheck from 'components/TokenCheck';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
@@ -44,8 +45,13 @@ const MainLayout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [drawerOpen]);
 
+    useEffect(() => {
+        TokenCheck;
+    }, []);
+
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>
+            <TokenCheck />
             <Header open={open} handleDrawerToggle={handleDrawerToggle} />
             <Drawer open={open} handleDrawerToggle={handleDrawerToggle} />
             <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Switch, Typography, Autocomplete, Grid, TextField } from '@mui/material';
 import { styled } from '@mui/system';
@@ -21,22 +21,16 @@ const TitleContainer = styled('div')({
     gap: '8px'
 });
 
-const Title = styled(Typography)({
+const Title = styled('div')({
     fontSize: '1.5rem',
     fontWeight: 'bold'
 });
 
-const DeviceInfo = styled(Typography)({
+const DeviceInfo = styled('div')({
     display: 'flex',
     alignItems: 'center',
     gap: '8px'
 });
-
-const config = {
-    headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
-    }
-};
 
 const SensorView = () => {
     const { id } = useParams();
@@ -54,7 +48,7 @@ const SensorView = () => {
     useEffect(() => {
         const fetchDeviceData = async () => {
             try {
-                const response = await Get(Links(`sensors`, id));
+                const response = await Get(Links(`sensorDetails`, id));
 
                 setSensor(response);
                 setIsActive(response.active);
@@ -133,22 +127,13 @@ const SensorView = () => {
                     <Typography variant="body1">
                         <strong>Pin:</strong>
                     </Typography>
-                    <Typography variant="body1" color={sensor.pin ? 'textPrimary' : 'textSecondary'}>
-                        <EditableTextField value={editedPin} property="pin" url={Links('sensorChangePin', id)} nullable={true} />
-                    </Typography>
+                    <EditableTextField value={editedPin} property="pin" url={Links('sensorChangePin', id)} nullable={true} />
                 </DeviceInfo>
                 <DeviceInfo>
                     <Typography variant="body1">
                         <strong>Address:</strong>
                     </Typography>
-                    <Typography variant="body1" color={sensor.address ? 'textPrimary' : 'textSecondary'}>
-                        <EditableTextField
-                            value={editedAddress}
-                            property="address"
-                            url={Links('sensorChangeAddress', id)}
-                            nullable={true}
-                        />
-                    </Typography>
+                    <EditableTextField value={editedAddress} property="address" url={Links('sensorChangeAddress', id)} nullable={true} />
                 </DeviceInfo>
                 {/*<DeviceInfo>*/}
                 {/*    <Typography variant="body1">*/}

@@ -14,6 +14,7 @@ namespace App\Service;
 
 use App\Entity\DeviceInterface;
 use App\Entity\DeviceTokenInterface;
+use App\Entity\SensorInterface;
 use App\Repository\DeviceTokenRepositoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -29,7 +30,8 @@ readonly class DeviceResolver implements DeviceResolverInterface
 
     public function resolveDevice(): ?DeviceInterface
     {
-        $token = trim($this->requestStack->getCurrentRequest()->headers->get(self::TOKEN));
+        $token = $this->requestStack->getCurrentRequest()->headers->get(self::TOKEN);
+        $token = !$token ?: trim($token);
 
         if (!$token) {
             return null;
@@ -42,5 +44,14 @@ readonly class DeviceResolver implements DeviceResolverInterface
         }
 
         return $token->getDevice();
+    }
+
+    public function resolveSensor(array $uriVariables): ?SensorInterface
+    {
+        $device = $this->resolveDevice();
+
+        return $device?->getSensors()->filter(static function (SensorInterface $sensor) use ($uriVariables) {
+            return $sensor->getId()->equals($uriVariables['id']);
+        })->first();
     }
 }

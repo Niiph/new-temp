@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { Fab, Grid, Switch, Typography, Popover, Button, TextField } from '@mui/material';
 import { styled } from '@mui/system';
@@ -28,7 +28,7 @@ const Title = styled(Typography)({
     fontWeight: 'bold'
 });
 
-const DeviceInfo = styled(Typography)({
+const DeviceInfo = styled('div')({
     display: 'flex',
     alignItems: 'center',
     gap: '8px'
@@ -36,7 +36,7 @@ const DeviceInfo = styled(Typography)({
 
 const DeviceListView = () => {
     const { id } = useParams();
-    const [devices, setDevices] = useState([]);
+    const [devices, setDevices] = useState(null);
     const popupState = usePopupState({ variant: 'popover', popupId: 'device-popover' });
     const [inputValue, setInputValue] = useState('');
 
@@ -44,6 +44,7 @@ const DeviceListView = () => {
         try {
             const response = await Get(Links('devicesFullList'));
             setDevices(response['hydra:member']);
+            console.log(devices);
         } catch (error) {
             console.error('Error fetching devices data:', error);
         }
@@ -63,7 +64,7 @@ const DeviceListView = () => {
         }
     };
 
-    if (devices.length === 0) {
+    if (!devices) {
         return <div>Loading...</div>; // Placeholder for when data is loading
     }
 
@@ -98,7 +99,7 @@ const DeviceListView = () => {
                 ))}
             </Grid>
             <div>
-                <Fab Fab color="primary" aria-label="add" sx={{ mt: 2 }} {...bindTrigger(popupState)}>
+                <Fab color="primary" aria-label="add" sx={{ mt: 2 }} {...bindTrigger(popupState)}>
                     <AddIcon />
                 </Fab>
                 <Popover

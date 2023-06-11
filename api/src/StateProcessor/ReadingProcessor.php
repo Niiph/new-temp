@@ -35,10 +35,7 @@ readonly class ReadingProcessor implements ProcessorInterface
             return;
         }
 
-        $device = $this->deviceResolver->resolveDevice();
-        $sensor = $device?->getSensors()->filter(static function (SensorInterface $sensor) use ($uriVariables) {
-            return $sensor->getId()->equals($uriVariables['id']);
-        })->first();
+        $sensor = $this->deviceResolver->resolveSensor($uriVariables);
 
         if (!$sensor instanceof SensorInterface) {
             return;

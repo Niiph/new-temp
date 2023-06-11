@@ -27,7 +27,7 @@ readonly class ExceptionEventListener
     ) {
     }
 
-//    #[AsEventListener(KernelEvents::EXCEPTION)]
+    #[AsEventListener(KernelEvents::EXCEPTION)]
     public function onKernelException(ExceptionEvent $event): void
     {
         $throwable = $event->getThrowable();

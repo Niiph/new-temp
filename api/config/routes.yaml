@@ -5,3 +5,10 @@ swagger_ui:
 api_login_check:
     path: '%app.security.api_route%/login_check'
     methods: [ 'POST' ]
+
+api_refresh_token:
+    path: '%app.security.api_route%/token_refresh'
+    methods: [ 'POST' ]
+    
+api_token_invalidate:
+    path: '%app.security.api_route%/token_invalidate'

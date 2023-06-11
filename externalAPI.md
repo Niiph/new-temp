@@ -5,7 +5,8 @@ There is flow that should be followed step by step:
 
 1. [Time request](#time-request)
 2. [Sensors list request](#sensors-list-request)
-3. [Send readings one by one](#send-reading)
+3. [Sensor data](#sensor-data)
+4. [Send readings one by one](#send-reading)
 
 ### Time request
 
@@ -50,6 +51,18 @@ short ID and device password:
             "id": "bc62f6fd-401f-41a8-9059-3a17d7776848"
         }
     ]
+    ```
+
+### Sensor data
+
+* GET `api/sensor/{sensorId}`
+* Header: `X-Authentication-Token` and calculated device token
+* Output - list of sensor IDs:
+    ```json5
+    {
+        "pin": 5,
+        "address": "0x76"
+    }
     ```
 
 ### Send reading

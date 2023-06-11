@@ -1,5 +1,6 @@
 {
     "name": "template",
+    "homepage": "/",
     "version": "1.1.1",
     "private": true,
     "dependencies": {
@@ -21,10 +22,12 @@
         "@types/react-dom": "^18.2.4",
         "apexcharts": "^3.35.5",
         "axios": "^1.4.0",
+        "caniuse-lite": "^1.0.30001494",
         "eslint-plugin-typescript": "^0.14.0",
         "formik": "^2.2.9",
         "framer-motion": "^7.3.6",
         "history": "^5.3.0",
+        "js-cookie": "^3.0.5",
         "lodash": "^4.17.21",
         "material-ui-popup-state": "^5.0.8",
         "prop-types": "^15.8.1",

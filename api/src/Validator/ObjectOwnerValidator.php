@@ -30,7 +30,7 @@ class ObjectOwnerValidator extends ConstraintValidator
     /** @param ObjectOwner $constraint */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$value || is_string($value)) {
+        if (!$value || !is_string($value)) {
             return;
         }
 
@@ -40,7 +40,7 @@ class ObjectOwnerValidator extends ConstraintValidator
         $object = $this->entityManager->getRepository($constraint->class)->find($value);
 
         if (!$object instanceof OwnerInterface || !$object->isOwner($user)) {
-            $this->context->buildViolation('app.validation.not_object_owner')->addViolation();
+            $this->context->buildViolation('app.violation.not_object_owner')->addViolation();
         }
     }
 }

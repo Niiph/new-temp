@@ -24,6 +24,7 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
 {
     private const LIST = 'devices_list';
     private const FULL_LIST = 'devices_full_list';
+    private const SIMPLE_LIST = 'devices_simple_list';
 
     public function __construct(
         private readonly Security $security,
@@ -63,6 +64,7 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
         return [
             self::LIST,
             self::FULL_LIST,
+            self::SIMPLE_LIST,
         ];
     }
 }

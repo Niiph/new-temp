@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { ReactNode } from "react";
 import adminPicture from "../public/api-platform/admin.svg";
 import rocketPicture from "../public/api-platform/rocket.svg";
 import logo from "../public/api-platform/logo_api-platform.svg";
@@ -193,7 +193,7 @@ const HelpButton = ({
 }: {
   url: string;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => (
   (<Link
     href={url}
