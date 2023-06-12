@@ -80,9 +80,9 @@ const Profile = () => {
 
     const iconBackColorOpen = 'grey.300';
 
-    if (!localStorage.getItem('username')) {
-        localStorage.setItem('username', `user@example.com`);
-    }
+    // if (!localStorage.getItem('username')) {
+    //     localStorage.setItem('username', `user@example.com`);
+    // }
 
     return (
         <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -100,7 +100,7 @@ const Profile = () => {
                 onClick={handleToggle}
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Typography variant="subtitle1">{localStorage.getItem('username')}</Typography>
+                    <Typography variant="subtitle1">{localStorage.getItem('username') ?? `user@example.com`}</Typography>
                 </Stack>
             </ButtonBase>
             <Popper

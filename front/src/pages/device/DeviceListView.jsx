@@ -44,7 +44,6 @@ const DeviceListView = () => {
         try {
             const response = await Get(Links('devicesFullList'));
             setDevices(response['hydra:member']);
-            console.log(devices);
         } catch (error) {
             console.error('Error fetching devices data:', error);
         }

@@ -5,20 +5,24 @@ import Links from 'routes/ApiRoutes';
 
 axios.defaults.withCredentials = true;
 const refreshAuthLogic = (failedRequest) =>
-    axios.post(Links('tokenRefresh')).then((tokenRefreshResponse) => {
-        const { token } = tokenRefreshResponse.data;
-        Cookies.set('token', token, { secure: true, sameSite: 'strict' });
-        // failedRequest.response.config.headers['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.jwt;
-        return Promise.resolve().catch((error) => {
+    axios
+        .post(Links('tokenRefresh'))
+        .then((tokenRefreshResponse) => {
+            const { token } = tokenRefreshResponse.data;
+            Cookies.set('token', token, { secure: true, sameSite: 'strict' });
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+            return Promise.resolve();
+        })
+        .catch((error) => {
             console.error('Error refreshing token: ', error);
+            return Promise.reject(error); // propagate the error instead of resolving
         });
-    });
 
 axios.interceptors.response.use(
     (response) => response,
     (error) => {
         const originalRequest = error.config;
-        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        if (error.response && error.response.status === 401 && !originalRequest._retry && originalRequest.url !== Links('tokenRefresh')) {
             Cookies.remove('token');
             originalRequest._retry = true;
             return refreshAuthLogic(originalRequest).then(() => {

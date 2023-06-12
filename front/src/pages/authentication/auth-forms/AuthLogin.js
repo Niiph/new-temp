@@ -68,7 +68,6 @@ const AuthLogin = () => {
                             username: values.email,
                             password: values.password
                         });
-                        console.log(response.data);
                         if (response.status === 200) {
                             setStatus({ success: true });
                             const { token } = response.data;
@@ -80,7 +79,6 @@ const AuthLogin = () => {
                             window.location.reload();
                         }
                     } catch (error) {
-                        console.log(error);
                         setStatus({ success: false });
                         setErrors({ submit: error.response ? error.response.data.message ?? error.response.data : error.message });
                         setSubmitting(false);
