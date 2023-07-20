@@ -73,13 +73,11 @@ const AuthRegister = () => {
                             username: values.email,
                             password: values.password
                         });
-                        console.log(response);
                         if (response.status === 204) {
                             setStatus({ success: true });
                             navigate(LoginAliases.login);
                         }
                     } catch (error) {
-                        console.log(error.response);
                         setStatus({ success: false });
                         setErrors({ submit: error.response ? error.response.data.message ?? error.response.data : error.message });
                         setSubmitting(false);
