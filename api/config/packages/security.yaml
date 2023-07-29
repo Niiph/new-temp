@@ -13,6 +13,9 @@ security:
                 class: App\Entity\User
                 property: username
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js|docs.jsonld|docs)/
+            security: false
         login:
             pattern: ^/api/login
             stateless: true
@@ -21,6 +24,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         main:
+            pattern: ^/
             stateless: true
             provider: user_provider
             entry_point: jwt

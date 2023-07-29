@@ -17,6 +17,7 @@ use App\Exception\TranslatableExceptionInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -33,12 +34,14 @@ readonly class ExceptionEventListener
         $throwable = $event->getThrowable();
         if ($throwable instanceof TranslatableExceptionInterface) {
             $message = $this->translator->trans($throwable->getMessageTranslation(), $throwable->getMessageParameters());
-            $code = $throwable->getStatusCode();
-        }
-        if ($throwable instanceof ValidationException) {
-            $code = 422;
         }
 
-        $event->setResponse(new JsonResponse($message ?? $throwable->getMessage(), $code ?? 500));
+        $code = match (true) {
+            is_a($throwable, ValidationException::class) => 422,
+            is_a($throwable, HttpExceptionInterface::class) => $throwable->getStatusCode(),
+            default => 500
+        };
+
+        $event->setResponse(new JsonResponse($message ?? $throwable->getMessage(), $code));
     }
 }
