@@ -56,7 +56,8 @@
         "symfony/phpunit-bridge": "6.3.*",
         "symfony/stopwatch": "6.3.*",
         "symfony/var-dumper": "6.3.*",
-        "symfony/web-profiler-bundle": "6.3.*"
+        "symfony/web-profiler-bundle": "6.3.*",
+        "zenstruck/foundry": "^1.34"
     },
     "config": {
         "optimize-autoloader": true,
@@ -109,7 +110,8 @@
             "vendor/bin/phpcbf",
             "vendor/bin/phpcs",
             "php -d memory_limit=2G vendor/bin/phpstan",
-            "@php bin/console doctrine:schema:validate --skip-sync"
+            "@php bin/console doctrine:schema:validate --skip-sync",
+            "bin/phpunit"
         ]
     },
     "conflict": {

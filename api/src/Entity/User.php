@@ -61,18 +61,20 @@ class User implements UserInterface
     #[Column(type: 'simple_array')]
     private array $roles;
 
-//    #[Length(min: StringLengthUtil::PASSWORD_MIN, max: StringLengthUtil::PASSWORD_MAX)]
-//    private ?string $plainPassword = null;
+    #[Length(min: StringLengthUtil::PASSWORD_MIN, max: StringLengthUtil::PASSWORD_MAX)]
+    private ?string $plainPassword = null;
 
     #[OneToMany(mappedBy: 'user', targetEntity: DeviceInterface::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $devices;
 
     public function __construct(
         string $username,
+        string $plainPassword,
         ?array $roles = null,
         ?UuidInterface $id = null,
     ) {
         $this->username      = $username;
+        $this->plainPassword = $plainPassword;
         $this->roles         = $roles ?? [AccountRole::ROLE_USER->value];
         $this->id            = $id ?? Uuid::uuid4();
 
@@ -101,15 +103,15 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-//    public function getPlainPassword(): ?string
-//    {
-//        return $this->plainPassword;
-//    }
-//
-//    public function setPlainPassword(?string $plainPassword): void
-//    {
-//        $this->plainPassword = $plainPassword;
-//    }
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
 
     public function getRoles(): array
     {

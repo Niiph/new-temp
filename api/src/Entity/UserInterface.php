@@ -27,9 +27,9 @@ interface UserInterface extends BaseUserInterface, PasswordAuthenticatedUserInte
 
     public function setPassword(?string $password): void;
 
-//    public function getPlainPassword(): ?string;
-//
-//    public function setPlainPassword(?string $plainPassword): void;
+    public function getPlainPassword(): ?string;
+
+    public function setPlainPassword(?string $plainPassword): void;
 
     public function hasRole(AccountRole $accountRole): bool;
 

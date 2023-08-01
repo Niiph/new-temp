@@ -37,16 +37,16 @@ const areaChartOptions = {
     annotations: {
         yaxis: [
             {
-                y: 35,
-                borderColor: '#00E396',
-                label: {
-                    borderColor: '#00E396',
-                    style: {
-                        color: '#fff',
-                        background: '#00E396'
-                    },
-                    text: 'Support'
-                }
+                // y: 35,
+                // borderColor: '#00E396',
+                // label: {
+                //     borderColor: '#00E396',
+                //     style: {
+                //         color: '#fff',
+                //         background: '#00E396'
+                //     },
+                //     text: 'Support'
+                // }
             }
         ]
     }
