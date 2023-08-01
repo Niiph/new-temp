@@ -1,6 +1,16 @@
 ## External API
 
 Those endpoints are designed to be used exclusively by external devices.  
+All returned data is in `json+ld` standard by default, but other formats are also supported:  
+```yaml
+jsonld:   ['application/ld+json']
+jsonhal:  ['application/hal+json']
+jsonapi:  ['application/vnd.api+json']
+json:     ['application/json']
+xml:      ['application/xml', 'text/xml']
+yaml:     ['application/x-yaml']
+csv:      ['text/csv']
+```
 There is flow that should be followed step by step:
 
 1. [Time request](#time-request)
@@ -17,7 +27,7 @@ There is flow that should be followed step by step:
         "shortId": "H4RGYLKDWW7N6BWCDMQHNZAHW2"
     }
     ```
-* Output - date in ISO8601:
+* Output - date in ISO8601 (it has to be EXACTLY the same as one returned when used in calculation of token):
     ```json5
     {
         "date": "2023-05-13T11:32:23+00:00"
@@ -55,9 +65,9 @@ short ID and device password:
 
 ### Sensor data
 
-* GET `api/sensor/{sensorId}`
+* GET `api/sensors/{sensorId}`
 * Header: `X-Authentication-Token` and calculated device token
-* Output - list of sensor IDs:
+* Output - list of sensor data:
     ```json5
     {
         "pin": 5,

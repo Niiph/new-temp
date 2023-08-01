@@ -58,24 +58,24 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ),
         new GetCollection(
             uriTemplate: 'devices',
-            shortName: 'devices_list',
             security: 'is_granted("list_devices", object)',
             output: DeviceShortListOutput::class,
             provider: OutputCollectionProvider::class,
+            extraProperties: ['name' => 'devices_list'],
         ),
         new GetCollection(
             uriTemplate: 'devices/full_list',
-            shortName: 'devices_full_list',
             security: 'is_granted("list_devices", object)',
             output: DeviceFullListOutput::class,
             provider: OutputCollectionProvider::class,
+            extraProperties: ['name' => 'devices_full_list'],
         ),
         new GetCollection(
             uriTemplate: 'devices/simple_list',
-            shortName: 'devices_simple_list',
             security: 'is_granted("list_devices", object)',
             output: DeviceSimpleOutput::class,
             provider: OutputCollectionProvider::class,
+            extraProperties: ['name' => 'devices_simple_list'],
         ),
         new Get(
             uriTemplate: 'devices/{id}',

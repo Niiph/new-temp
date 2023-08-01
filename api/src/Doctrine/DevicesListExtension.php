@@ -22,8 +22,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class DevicesListExtension implements QueryCollectionExtensionInterface
 {
-    private const LIST = 'devices_list';
-    private const FULL_LIST = 'devices_full_list';
+    private const LIST        = 'devices_list';
+    private const FULL_LIST   = 'devices_full_list';
     private const SIMPLE_LIST = 'devices_simple_list';
 
     public function __construct(
@@ -38,7 +38,8 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
         Operation                   $operation = null,
         array                       $context = []
     ): void {
-        if (!is_a($resourceClass, DeviceInterface::class, true) || !in_array($operation->getShortName(), $this->shortNames())) {
+        if (!is_a($resourceClass, DeviceInterface::class, true) ||
+            !in_array($operation->getExtraProperties()['name'] ?? null, $this->shortNames())) {
             return;
         }
 
