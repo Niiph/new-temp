@@ -43,7 +43,8 @@ short ID and device password:
             $device->getDevicePassword(),
             $device->getShortId(),
             $this->createdAt->toIso8601String()
-        );
+        )
+    );
     ```
 * Calculated token is valid for 60 minutes
 

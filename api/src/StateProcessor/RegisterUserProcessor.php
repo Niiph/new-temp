@@ -26,7 +26,6 @@ readonly class RegisterUserProcessor implements ProcessorInterface
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserRepositoryInterface $userRepository,
-        private UserPasswordHasherInterface $passwordHasher,
     ) {
     }
 
@@ -38,10 +37,7 @@ readonly class RegisterUserProcessor implements ProcessorInterface
             throw new UserAlreadyExistsException($data->username);
         }
 
-        $user = new User($data->username);
-
-        $hashedPassword = $this->passwordHasher->hashPassword($user, $data->password);
-        $user->setPassword($hashedPassword);
+        $user = new User($data->username, $data->password);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
