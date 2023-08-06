@@ -312,7 +312,7 @@ packages:
     dependencies:
       ky: 0.30.0
       ky-universal: 0.10.1(ky@0.30.0)
-      undici: 5.15.0
+      undici: 5.23.0
     transitivePeerDependencies:
       - web-streams-polyfill
     dev: false
@@ -3632,9 +3632,9 @@ packages:
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
 
-  /undici@5.15.0:
-    resolution: {integrity: sha512-wCAZJDyjw9Myv+Ay62LAoB+hZLPW9SmKbQkbHIhMw/acKSlpn7WohdMUc/Vd4j1iSMBO0hWwU8mjB7a5p5bl8g==}
-    engines: {node: '>=12.18'}
+  /undici@5.23.0:
+    resolution: {integrity: sha512-1D7w+fvRsqlQ9GscLBwcAJinqcZGHUKjbOmXdlE/v8BvEGXjeWAax+341q44EuTcHXXnfyKNbKRq4Lg7OzhMmg==}
+    engines: {node: '>=14.0'}
     dependencies:
       busboy: 1.6.0
     dev: false
