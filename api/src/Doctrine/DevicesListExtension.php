@@ -55,7 +55,7 @@ class DevicesListExtension implements QueryCollectionExtensionInterface
             ->orderBy($alias.'.active', 'DESC')
             ->addOrderBy($alias.'.name');
 
-        if (self::LIST === $operation->getShortName()) {
+        if (self::LIST === ($operation->getExtraProperties()['name'] ?? null)) {
             $queryBuilder->andWhere($alias.'.active = true');
         }
     }

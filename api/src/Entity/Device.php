@@ -80,26 +80,24 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         new Get(
             uriTemplate: 'devices/{id}',
             security: 'is_granted("device_get", object)',
-            output: DeviceOutput::class,
             provider: OutputItemProvider::class,
         ),
         new Put(
             uriTemplate: '/devices/{id}/change_active',
             security: 'is_granted("device_change_active", object)',
             input: ChangeActiveInput::class,
+            output: DeviceOutput::class,
             processor: ChangeActiveProcessor::class,
         ),
         new Put(
             uriTemplate: '/devices/{id}/change_password',
             security: 'is_granted("device_change_password", object)',
-            output: DeviceOutput::class,
             processor: SensorChangePasswordProcessor::class,
         ),
         new Put(
             uriTemplate: '/devices/{id}/change_name',
             security: 'is_granted("device_change_name", object)',
             input: ChangeNameInput::class,
-            output: DeviceOutput::class,
             processor: DeviceChangeNameProcessor::class,
         ),
         new Post(
@@ -107,7 +105,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             input: DeviceCreateInput::class,
             processor: DeviceCreateProcessor::class,
         ),
-    ]
+    ],
+    output: DeviceOutput::class,
 )]
 #[UniqueEntity(['id', 'shortId'])]
 #[Entity(DeviceRepository::class)]
@@ -140,9 +139,9 @@ class Device implements DeviceInterface
     private Collection $deviceTokens;
 
     public function __construct(
-        UserInterface $user,
-        string $name,
-        bool $active = false,
+        UserInterface  $user,
+        string         $name,
+        bool           $active = false,
         ?UuidInterface $id = null
     ) {
         $this->user           = $user;
