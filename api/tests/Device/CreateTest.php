@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the Diagla package.
  *
  * (c) Piotr Opioła <piotr@opiola.eu>

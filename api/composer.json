@@ -113,7 +113,8 @@
             "vendor/bin/phpcs",
             "php -d memory_limit=2G vendor/bin/phpstan",
             "@php bin/console doctrine:schema:validate --skip-sync",
-            "bin/phpunit"
+            "vendor/bin/phpunit",
+            "vendor/bin/pest"
         ]
     },
     "conflict": {
