@@ -15,7 +15,9 @@ namespace App\StateProcessor;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ChangeActiveInput;
+use App\DTO\DeviceOutput;
 use App\Entity\ActiveInterface;
+use App\Entity\DeviceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 
@@ -27,7 +29,7 @@ readonly class ChangeActiveProcessor implements ProcessorInterface
     }
 
     /** @param ChangeActiveInput $data */
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ActiveInterface
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): DeviceOutput
     {
         /** @var ActiveInterface $object */
         $object = $context['previous_data'];
@@ -38,11 +40,11 @@ readonly class ChangeActiveProcessor implements ProcessorInterface
         /* @phpstan-ignore-next-line */
         $entity = $this->entityManager->getReference(get_class($object), $object->getId());
 
-        /** @var ActiveInterface $entity */
+        /** @var DeviceInterface $entity */
         $entity->setActive($data->active);
 
         $this->entityManager->flush();
 
-        return $entity;
+        return DeviceOutput::createOutput($entity);
     }
 }

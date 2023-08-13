@@ -1,25 +1,16 @@
 <?php
 
-namespace App\Tests\Api;
+namespace App\Tests\ExternalApi;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\DataFixtures\Factory\DeviceFactory;
 use App\DataFixtures\Factory\ReadingFactory;
 use App\DataFixtures\Factory\SensorFactory;
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
-use Zenstruck\Foundry\Test\Factories;
-use Zenstruck\Foundry\Test\ResetDatabase;
+use App\Tests\TestCase;
 
-class ExternalApiTest extends ApiTestCase
+class ExternalApiTest extends TestCase
 {
-    use Factories;
-    use ResetDatabase;
-
     public function test_time_endpoint(): void
     {
-        $this->setupTests();
-
         $device = DeviceFactory::createOne();
 
         static::createClient()->request(
@@ -31,7 +22,7 @@ class ExternalApiTest extends ApiTestCase
             ]
         );
 
-        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
             'date' => '2023-07-01T12:34:56+00:00',
         ]);
@@ -39,8 +30,6 @@ class ExternalApiTest extends ApiTestCase
 
     public function test_sensors_list_endpoint(): void
     {
-        $this->setupTests();
-
         $sensor = SensorFactory::createOne();
         $device = $sensor->getDevice();
 
@@ -74,7 +63,7 @@ class ExternalApiTest extends ApiTestCase
             ]
         );
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
             ['id' => 'b944449e-123e-353f-b1b7-b6b39f2eab64']
         ]);
@@ -82,8 +71,6 @@ class ExternalApiTest extends ApiTestCase
 
     public function test_sensor_data_endpoint(): void
     {
-        $this->setupTests();
-
         $sensor = SensorFactory::createOne();
         $device = $sensor->getDevice();
 
@@ -127,7 +114,7 @@ class ExternalApiTest extends ApiTestCase
             ]
         );
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
             'pin' => 19,
             'address' => '8, d6, bc, 47, 5b, 3a, 8a, 3a',
@@ -136,8 +123,6 @@ class ExternalApiTest extends ApiTestCase
 
     public function test_send_reading_endpoint(): void
     {
-        $this->setupTests();
-
         $sensor = SensorFactory::createOne();
         $device = $sensor->getDevice();
 
@@ -187,16 +172,9 @@ class ExternalApiTest extends ApiTestCase
             ]
         );
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseIsSuccessful();
         $this->assertCount(1, ReadingFactory::all());
         $this->assertEquals(25, ReadingFactory::first()->getValue());
         $this->assertEquals('T', ReadingFactory::first()->getType());
-    }
-
-    private function setupTests(): void
-    {
-        $datetime = '2023-07-01 12:34:56';
-        Carbon::setTestNow(new Carbon($datetime));
-        CarbonImmutable::setTestNow(new CarbonImmutable($datetime));
     }
 }

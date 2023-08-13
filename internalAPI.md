@@ -5,6 +5,9 @@ Those endpoints are designed to be user for communication between backend and fr
   - [Register](#register)
   - [Login](#login)
 - [Devices](#devices)
+  - [View](#devices-view)
+  - [List](#devices-list)
+  - [Full list](#devices-full-list)
 
 ## Authorization
 
@@ -14,7 +17,7 @@ Those endpoints are designed to be user for communication between backend and fr
 * Input: 
 ```json5
 {
-    "username": "string",
+    "username": "string/email",
     "password": "string"
 }
 ```
@@ -33,38 +36,149 @@ Those endpoints are designed to be user for communication between backend and fr
 * Output:
 ```json5
 {
-    "token": "string/JWT Token"
+    "token": "string/JWT Token",
+    "refresh_token_expiration": "unix timestamp"
 }
 ```
 
 ## Devices
 
-### List
+### <a id="devices-view"></a>View
 
-* Return list of user's active devices with active sensors
+* Get `api/devices/{id}`
+* Output:
+```json5
+{
+    "id": "string/uuid",
+    "name": "string",
+    "active": "boolean",
+    "shortId": "string",
+    'password': 'string',
+    "sensors": [
+        {
+            "id": "string/uuid",
+            "name": "string",
+            "active": "boolean"
+        }
+    ]
+}
+```
+
+### <a id="devices-list"></a>List
+
+* Returns list of user's active devices with active sensors
 * GET `api/sensors`
 * Output:
 ```json5
 {
-  "hydra:member": [
-    {
-      "id": "string/device uuid",
-      "name": "string",
-      "sensors": [
+    "id": "string/uuid",
+    "name": "string",
+    "sensors": [
         {
-          "id": "string/sensor uuid",
-          "name": "string",
+            "id": "string/sensor uuid",
+            "name": "string"
         }
-      ]
-    }
-  ]
+    ]
 }
 ```
 
-### Full list
+### <a id="devices-full-list"></a>Full list
 
-* GET `api/devices/full_list`
+* Returns full list of user's devices with
+* GET `api/sensors/full_list`
+* Output:
+```json5
+[
+    {
+        "id": "string/uuid",
+        "name": "string",
+        "active": "boolean",
+        "shortId": "string",
+        "password": "string"
+    }
+]
+```
 
-### View
+### <a id="devices-create"></a>Create
 
-* Get `api/devices/{id}`
+* Changes device's `name` parameter
+* POST `api/sensors`
+* Input:
+```json5
+{
+    "name": "string(25)"
+}
+```
+* Output:
+```json5
+[
+    {
+        "id": "string/uuid",
+        "name": "string",
+        "active": false,
+        "shortId": "string",
+        "password": "string",
+        "sensors" : []
+    }
+]
+```
+
+### <a id="devices-change-active"></a>Change active
+
+* Changes device's `active` parameter
+* GET `api/sensors/{id}/change_active`
+* Input: 
+```json5
+{
+    "active": "boolean"
+}
+```
+* Output:
+```json5
+[
+    {
+        "id": "string/uuid",
+        "name": "string",
+        "active": "boolean",
+        "shortId": "string",
+        "password": "string",
+        "sensors" : [
+            {
+                "id": "string/sensor uuid",
+                "name": "string",
+                "active": "boolean"
+            }
+        ]
+    }
+]
+```
+
+### <a id="devices-change-name"></a>Change name
+
+* Changes device's `name` parameter
+* GET `api/sensors/{id}/change_name`
+* Input:
+```json5
+{
+    "name": "string(25)"
+}
+```
+* Output:
+```json5
+[
+    {
+        "id": "string/uuid",
+        "name": "string",
+        "active": "boolean",
+        "shortId": "string",
+        "password": "string",
+        "sensors" : [
+            {
+                "id": "string/sensor uuid",
+                "name": "string",
+                "active": "boolean"
+            }
+        ]
+    }
+]
+```
