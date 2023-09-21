@@ -102,7 +102,7 @@ packages:
   /@api-platform/api-doc-parser@0.16.1:
     resolution: {integrity: sha512-oweIGINiL9YRaMCEf0Sbr2CINbgmmHcRZGegBX9jqzD2k6WkwA0ZHCMn3BAFVN2v2E9/JAZoqhzO7es3othJxQ==}
     dependencies:
-      graphql: 16.6.0
+      graphql: 16.8.1
       inflection: 1.13.4
       jsonld: 8.1.0
       jsonref: 8.0.8
@@ -2148,8 +2148,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /graphql@16.6.0:
-    resolution: {integrity: sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==}
+  /graphql@16.8.1:
+    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
     dev: false
 
