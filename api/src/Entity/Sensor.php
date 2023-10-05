@@ -57,6 +57,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+// //external
 #[ApiResource(
     operations: [
         new Get(
@@ -70,6 +71,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'add_reading',
             processor: ReadingProcessor::class,
         ),
+    ]
+)]
+//internal
+#[ApiResource(
+    operations: [
         new Get(
             uriTemplate: 'sensors/{id}/details',
             security: 'is_granted("sensor_get", object)',

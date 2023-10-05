@@ -16,6 +16,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\DTO\ChangeActiveInput;
 use App\DTO\DeviceOutput;
+use App\DTO\SensorOutput;
 use App\Entity\ActiveInterface;
 use App\Entity\DeviceInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,7 @@ readonly class ChangeActiveProcessor implements ProcessorInterface
     }
 
     /** @param ChangeActiveInput $data */
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): DeviceOutput
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ActiveInterface
     {
         /** @var ActiveInterface $object */
         $object = $context['previous_data'];
@@ -45,6 +46,6 @@ readonly class ChangeActiveProcessor implements ProcessorInterface
 
         $this->entityManager->flush();
 
-        return DeviceOutput::createOutput($entity);
+        return $entity;
     }
 }

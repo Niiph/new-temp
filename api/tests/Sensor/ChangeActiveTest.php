@@ -10,23 +10,25 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Device;
+namespace App\Tests\Sensor;
 
 use App\DataFixtures\Factory\DeviceFactory;
+use App\DataFixtures\Factory\SensorFactory;
 use App\DataFixtures\Factory\UserFactory;
 use App\Tests\TestCase;
 
 class ChangeActiveTest extends TestCase
 {
-    public function test_change_active(): void
+    public function test_sensor_change_active(): void
     {
         $token = $this->generateToken();
         $user = UserFactory::first();
-        $device = DeviceFactory::createOne(['user' => $user, 'active' => false]);
+        $device = DeviceFactory::new(['user' => $user])->create();
+        $sensor = SensorFactory::new(['device' => $device, 'active' => false])->create();
 
         $response = static::createClient()->request(
             'PUT',
-            sprintf('/api/devices/%s/change_active', $device->getId()),
+            sprintf('/api/sensors/%s/change_active', $sensor->getId()),
             [
                 'headers' => ['accept' => ['application/json']],
                 'auth_bearer' => $token,
@@ -35,11 +37,11 @@ class ChangeActiveTest extends TestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertTrue($device->isActive());
+        $this->assertTrue($sensor->isActive());
 
         $response = static::createClient()->request(
             'PUT',
-            sprintf('/api/devices/%s/change_active', $device->getId()),
+            sprintf('/api/sensors/%s/change_active', $sensor->getId()),
             [
                 'headers' => ['accept' => ['application/json']],
                 'auth_bearer' => $token,
@@ -48,17 +50,17 @@ class ChangeActiveTest extends TestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertFalse($device->isActive());
+        $this->assertFalse($sensor->isActive());
     }
 
-    public function test_change_active_as_non_owner(): void
+    public function test_sensor_change_active_as_non_owner(): void
     {
         $token = $this->generateToken();
-        $device = DeviceFactory::createOne();
+        $sensor = SensorFactory::createOne();
 
         $response = static::createClient()->request(
             'PUT',
-            sprintf('/api/devices/%s/change_active', $device->getId()),
+            sprintf('/api/sensors/%s/change_active', $sensor->getId()),
             [
                 'headers' => ['accept' => ['application/json']],
                 'auth_bearer' => $token,
@@ -69,13 +71,13 @@ class ChangeActiveTest extends TestCase
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function test_change_active_as_anonymous(): void
+    public function test_sensor_change_active_as_anonymous(): void
     {
-        $device = DeviceFactory::createOne();
+        $sensor = SensorFactory::createOne();
 
         $response = static::createClient()->request(
             'PUT',
-            sprintf('/api/devices/%s/change_active', $device->getId()),
+            sprintf('/api/sensors/%s/change_active', $sensor->getId()),
             [
                 'headers' => ['accept' => ['application/json']],
                 'json' => ['active' => false],

@@ -18,13 +18,13 @@ use Ramsey\Uuid\UuidInterface;
 class SensorOutput implements OutputInterface
 {
     public function __construct(
-        public UuidInterface $id,
-        public string        $name,
-        public bool          $active,
-        public ?int          $pin,
-        public ?string       $address,
-        public ?int          $minimum,
-        public ?int          $maximum,
+        public UuidInterface      $id,
+        public string             $name,
+        public bool               $active,
+        public ?int               $pin,
+        public ?string            $address,
+        public ?int               $minimum,
+        public ?int               $maximum,
         public DeviceSimpleOutput $device,
     ) {
     }

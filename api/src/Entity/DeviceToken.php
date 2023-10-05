@@ -45,8 +45,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         ),
         new GetCollection(
             uriTemplate: 'blank',
-            name: 'blank',
             output: false,
+            name: 'blank',
         ),
     ]
 )]

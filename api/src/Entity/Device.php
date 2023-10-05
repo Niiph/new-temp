@@ -15,7 +15,6 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\DTO\ChangeActiveInput;
@@ -49,6 +48,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+//external
 #[ApiResource(
     operations: [
         new Get(
@@ -56,6 +56,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
             name: 'list_sensors',
             provider: SensorsListProvider::class,
         ),
+    ],
+)]
+//internal
+#[ApiResource(
+    operations: [
         new GetCollection(
             uriTemplate: 'devices',
             security: 'is_granted("list_devices", object)',

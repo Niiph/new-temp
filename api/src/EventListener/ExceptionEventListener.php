@@ -14,6 +14,7 @@ namespace App\EventListener;
 
 use ApiPlatform\Symfony\Validator\Exception\ValidationException;
 use App\Exception\TranslatableExceptionInterface;
+use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[When('prod')]
 readonly class ExceptionEventListener
 {
     public function __construct(
@@ -28,7 +30,7 @@ readonly class ExceptionEventListener
     ) {
     }
 
-//    #[AsEventListener(KernelEvents::EXCEPTION)]
+    #[AsEventListener(KernelEvents::EXCEPTION)]
     public function onKernelException(ExceptionEvent $event): void
     {
         $throwable = $event->getThrowable();

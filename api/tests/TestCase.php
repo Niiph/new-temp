@@ -15,7 +15,6 @@ namespace App\Tests;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\DataFixtures\Factory\UserFactory;
 use Carbon\CarbonImmutable;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
