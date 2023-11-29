@@ -12,27 +12,6 @@
             "src/ApiResource/.gitignore"
         ]
     },
-    "api-platform/schema-generator": {
-        "version": "v4.0.0"
-    },
-    "composer/pcre": {
-        "version": "1.0.0"
-    },
-    "composer/semver": {
-        "version": "3.2.7"
-    },
-    "composer/xdebug-handler": {
-        "version": "2.0.4"
-    },
-    "doctrine/annotations": {
-        "version": "1.13",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        }
-    },
     "doctrine/cache": {
         "version": "2.1.1"
     },
@@ -118,10 +97,10 @@
         "version": "1.1.2"
     },
     "friendsofphp/php-cs-fixer": {
-        "version": "3.4",
+        "version": "3.40",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "3.0",
             "ref": "be2103eb4a20942e28a6dd87736669b757132435"
         },
@@ -155,9 +134,6 @@
     "lcobucci/jwt": {
         "version": "4.1.5"
     },
-    "league/html-to-markdown": {
-        "version": "5.0.2"
-    },
     "lexik/jwt-authentication-bundle": {
         "version": "2.18",
         "recipe": {
@@ -184,12 +160,6 @@
         "files": [
             "config/packages/nelmio_cors.yaml"
         ]
-    },
-    "nette/php-generator": {
-        "version": "v3.6.5"
-    },
-    "nette/utils": {
-        "version": "v3.2.6"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -419,15 +389,6 @@
             "config/packages/mailer.yaml"
         ]
     },
-    "symfony/maker-bundle": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
-        }
-    },
     "symfony/mercure": {
         "version": "v0.6.1"
     },
@@ -469,9 +430,6 @@
         "files": [
             "config/packages/monolog.yaml"
         ]
-    },
-    "symfony/options-resolver": {
-        "version": "v6.0.0"
     },
     "symfony/password-hasher": {
         "version": "v6.0.2"
@@ -556,12 +514,12 @@
         "version": "v6.0.2"
     },
     "symfony/translation": {
-        "version": "6.2",
+        "version": "7.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "5.3",
-            "ref": "da64f5a2b6d96f5dc24914517c0350a5f91dee43"
+            "version": "6.3",
+            "ref": "64fe617084223633e1dedf9112935d8c95410d3e"
         },
         "files": [
             "config/packages/translation.yaml",
