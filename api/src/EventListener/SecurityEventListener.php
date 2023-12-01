@@ -45,8 +45,7 @@ readonly class SecurityEventListener
 
         $uriVariables = $apiNormalizationContext['uri_variables'] ?? null;
 
-        $entity = $this->itemProvider->provide($operation->withOutput(), $uriVariables);
-
+        $entity = $this->itemProvider->provide($operation, $uriVariables);
 
         if (!$this->resourceAccessChecker->isGranted($apiNormalizationContext['resource_class'], $operation->getSecurity(), ['object' => $entity])) {
             throw new AccessDeniedException('Access Denied.');

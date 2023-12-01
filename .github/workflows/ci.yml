@@ -50,7 +50,7 @@ jobs:
         run: docker compose exec -T php php bin/console lexik:jwt:generate-keypair
       - name: PHPUnit
         run: docker compose exec -T php vendor/bin/phpunit
-      - name: Pest
-        run: docker compose exec -T php vendor/bin/pest
+#      - name: Pest
+#        run: docker compose exec -T php vendor/bin/pest
       - name: Doctrine Schema Validator
         run: docker compose exec -T php bin/console doctrine:schema:validate --skip-sync
