@@ -1,7 +1,7 @@
 lockfileVersion: '6.0'
 
 settings:
-  autoInstallPeers: false
+  autoInstallPeers: true
   excludeLinksFromLockfile: false
 
 dependencies:
@@ -377,7 +377,7 @@ packages:
     dependencies:
       ky: 0.30.0
       ky-universal: 0.10.1(ky@0.30.0)
-      undici: 5.26.3
+      undici: 5.28.3
     transitivePeerDependencies:
       - web-streams-polyfill
     dev: false
@@ -3665,8 +3665,8 @@ packages:
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
 
-  /undici@5.26.3:
-    resolution: {integrity: sha512-H7n2zmKEWgOllKkIUkLvFmsJQj062lSm3uA4EYApG8gLuiOM0/go9bIoC3HVaSnfg4xunowDE2i9p8drkXuvDw==}
+  /undici@5.28.3:
+    resolution: {integrity: sha512-3ItfzbrhDlINjaP0duwnNsKpDQk3acHI3gVJ1z4fmwMK31k5G9OVIAMLSIaP6w4FaGkaAkN6zaQO9LUvZ1t7VA==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.0.0
