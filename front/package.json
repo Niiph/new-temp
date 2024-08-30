@@ -21,7 +21,7 @@
         "@types/react": "^18.2.6",
         "@types/react-dom": "^18.2.4",
         "apexcharts": "^3.35.5",
-        "axios": "^1.6.0",
+        "axios": "^1.7.4",
         "caniuse-lite": "^1.0.30001494",
         "eslint-plugin-typescript": "^0.14.0",
         "formik": "^2.2.9",
